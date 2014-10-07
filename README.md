@@ -8,7 +8,7 @@ __Note:__ Mac OS X is currently the only supported OS. Linux is possible, but co
 Prerequisites
 -----------
 
-* Mac Computer with Bluetooth 4.0
+* Mac Computer with OSX (Tested with 10.9.2) and Bluetooth 4.0
 * Mac OSX (Tested with 10.9.2)
 * DashBoard
 * npm from Node.js
