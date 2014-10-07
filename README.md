@@ -5,9 +5,6 @@ A BLE central interface for the Dashboard Peripheral
 
 __Note:__ Mac OS X is currently the only supported OS. Linux is possible, but compatibility will be enabled later.
 
-Information about preparing and editing Dashboard Peripheral functionality: 
-https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files 
-
 Prerequisites
 -----------
 
@@ -20,7 +17,7 @@ Install
 -------
 * Download root of this Dashboard Telemetry repository
 * [Learn how to customize DashBoard firmware](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files)
-* Replace DashBot.cpp and DashBot.h with the files provided in this repository in the folder custom_dashboard_firmware
+* Replace DashBot.cpp and DashBot.h with the files provided in this repository's folder: custom_dashboard_firmware
 
 __Dependencies__
 
@@ -33,7 +30,7 @@ Usage
 -----
 __Run__
    
-    node test2.js 
+    node main.js 
    
 __Keypress commands__
 
