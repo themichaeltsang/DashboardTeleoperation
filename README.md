@@ -9,7 +9,6 @@ Prerequisites
 -----------
 
 * Mac Computer with OSX (Tested with 10.9.2) and Bluetooth 4.0
-* Mac OSX (Tested with 10.9.2)
 * DashBoard
 * npm from Node.js
 
