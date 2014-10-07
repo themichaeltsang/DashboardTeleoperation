@@ -6,12 +6,12 @@ A BLE central interface for the Dashboard Peripheral
 __Note:__ Mac OS X is currently the only supported OS. Linux is possible, but compatability will be enabled later.
 
 Prerequisites
-___________
+_____________
 
-__Mac Computer with Bluetooth 4.0__
-__Mac OSX (Tested with 10.9.2)__
-__DashBoard__
-__npm from Node.js__
+* Mac Computer with Bluetooth 4.0
+* Mac OSX (Tested with 10.9.2)
+* DashBoard
+* npm from Node.js
 
 Install
 _______
@@ -22,7 +22,7 @@ _______
     sudo npm install fs
 
 Usage
-____
+_____
     node test2.js 
     
     press q-> red, press w-> blue, press e-> green
