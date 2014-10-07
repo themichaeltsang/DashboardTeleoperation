@@ -3,7 +3,10 @@ Dashboard Telemetry
 
 A BLE central interface for the Dashboard Peripheral
 
-__Note:__ Mac OS X is currently the only supported OS. Linux is possible, but compatability will be enabled later.
+__Note:__ Mac OS X is currently the only supported OS. Linux is possible, but compatibility will be enabled later.
+
+Information about preparing and editing Dashboard Peripheral functionality: 
+https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files 
 
 Prerequisites
 -----------
