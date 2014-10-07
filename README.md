@@ -19,7 +19,7 @@ Install
 * [Learn how to customize DashBoard firmware](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files)
 * Replace DashBot.cpp and DashBot.h with the files provided in this repository's folder: custom_dashboard_firmware
 
-__Dependencies__
+__Next, Install Dependencies__
 
     sudo npm install noble
     sudo npm install keypress
@@ -36,4 +36,27 @@ __Keypress commands__
 
     press q-> green, press w-> blue, press e-> red
     press n-> get live telemetry data    
+
+Roadmap (TODO)
+-------------
+ * Mac OS X:
+    * ~~Keypress Flash Lights~~
+    * ~~Print Live Sensor Data and save to Log file~~
+    * Automated Motor Control for Self-Righting Winged Project
+    * Keypress Motor Control
+    * Send Live IMU Sensor Data to Computer
+    * Autonomous Behavior: Apply Control Theory/Machine Learning/Formal Methods Algorithms  
+ * Linux 
+    * TDB 
+
+Useful Links
+------------
+ * [Dashboard](http://dashrobotics.com/collections/frontpage/products/dashboard-rdk)
+ * [Dash Robotics Open Source Code](https://github.com/DashRobotics)
+ * [node.js BLE central module](https://github.com/sandeepmistry/noble)
+
+Contact
+=======
+
+Michael Tsang <themichaeltsang@gmail.com> (2014)
 
