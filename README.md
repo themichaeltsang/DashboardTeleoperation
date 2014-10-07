@@ -29,9 +29,11 @@ __Dependencies__
 
 Usage
 -----
-__Run__:
+__Run__
+   
     node test2.js 
    
+__Keypress commands__
     press q-> green, press w-> blue, press e-> red
     press n-> get live telemetry data    
 
