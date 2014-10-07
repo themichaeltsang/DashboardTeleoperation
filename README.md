@@ -19,8 +19,8 @@ Prerequisites
 Install
 -------
 * Download root of this Dashboard Telemetry repository
-* Follow instructions @ https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files
-* Replace DashBot.cpp and DashBot.h with the ones provided in this repository in the folder custom_dashboard_firmware
+* [Learn how to customize DashBoard firmware](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files)
+* Replace DashBot.cpp and DashBot.h with the files provided in this repository in the folder custom_dashboard_firmware
 
 __Dependencies__
 
