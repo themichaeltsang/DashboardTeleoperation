@@ -15,7 +15,7 @@ _____________
 
 Install
 _______
-    download root from github
+download root of this Dashboard Telemetry repository
     sudo npm install noble
     sudo npm install keypress
     sudo npm install tty
@@ -25,6 +25,6 @@ Usage
 _____
     node test2.js 
     
-    press q-> red, press w-> blue, press e-> green
+    press q-> green, press w-> blue, press e-> red
     press n-> get live telemetry data    
 
