@@ -21,10 +21,9 @@ Install
 
 __Next, Install Dependencies__
 
-    sudo npm install noble
-    sudo npm install keypress
-    sudo npm install tty
-    sudo npm install fs
+    npm install noble
+    npm install keypress
+    npm install fs
 
 Usage
 -----
@@ -47,7 +46,7 @@ Roadmap (TODO)
     * Send Live IMU Sensor Data to Computer
     * Autonomous Behavior: Apply Control Theory/Machine Learning/Formal Methods Algorithms  
  * Linux 
-    * TDB 
+    * TBD
 
 Useful Links
 ------------
