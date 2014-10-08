@@ -483,6 +483,12 @@ void DashBot::executeRadioCommand(void)
     case 6:
       setInfoPacketMode();
       break;
+    case 7:
+      motorDriveL(receivedRadioPacket[1]);
+     break;
+    case 8:
+      motorDriveR(receivedRadioPacket[1]);
+      break;
     default:
       setEyeColor(100,0,100); //purple
       clearRadioPacket();
@@ -755,7 +761,7 @@ void DashBot::dashRadioSetup(void){
 ////////////////////////////////////////////////////////////////////////////////
 
 // make Dash run in a circle!
-void DashBot::dashCircle(void){
+/*void DashBot::dashCircle(void){
 
   
   unsigned long init_time = millis();
@@ -772,10 +778,10 @@ void DashBot::dashCircle(void){
 }
   
   setEyeColor(0,0,0);
-}
+}*/
 
 // make Dash run in a figure 8!
-void DashBot::dashFig8(void){
+/*void DashBot::dashFig8(void){
   unsigned long init_time = millis();
   unsigned long current_time = millis();
 
@@ -801,11 +807,11 @@ void DashBot::dashFig8(void){
 
   setEyeColor(0,0,0);
 
-}
+}*/
 
 
 // make Dash dance!
-void DashBot::dashDance(void){
+/*void DashBot::dashDance(void){
   
   unsigned long init_time = millis();
 
@@ -844,10 +850,10 @@ void DashBot::dashDance(void){
 
   allStop();
   setEyeColor(0,0,0);
-}
+}*/
 
 // Dash will run forward until a collision is detected with the IR sensors, at which point Dash stops, backs up, turns, and again starts running
-void DashBot::dashBump(void) {
+/*void DashBot::dashBump(void) {
   
   unsigned long init_time = millis();
   unsigned long current_time = millis();
@@ -893,10 +899,11 @@ void DashBot::dashBump(void) {
   allStop();
   setEyeColor(0,0,0);
   
-}
+}*/
 
 
 // make Dash dance!
+/*
 void DashBot::dashTest(void){
   
   digitalWrite(LED_RED, HIGH);
@@ -981,4 +988,4 @@ void DashBot::dashTest(void){
 
   allStop();
   setEyeColor(0,0,0);
-}
+}*/
