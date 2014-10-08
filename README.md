@@ -33,6 +33,7 @@ __Run__
 __Keypress commands__
 
     press q-> green, press w-> blue, press e-> red
+    press a-> L motor, press s-> R motor, press d-> stop motors
     press n-> get live telemetry data    
 
 Roadmap (TODO)
