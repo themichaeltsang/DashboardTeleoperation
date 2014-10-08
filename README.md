@@ -42,7 +42,7 @@ Roadmap (TODO)
     * ~~Keypress Flash Lights~~
     * ~~Print Live Sensor Data and save to Log file~~
     * Automated Motor Control for Self-Righting Winged Project
-    * Keypress Motor Control
+    * ~~keypress Motor Control~~
     * Send Live IMU Sensor Data to Computer
     * Autonomous Behavior: Apply Control Theory/Machine Learning/Formal Methods Algorithms  
  * Linux 
