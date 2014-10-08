@@ -4,7 +4,7 @@ var noble = require('noble');
 var fs = require('fs');
 
 // initialize write-to-file capability - create log.txt if it doesn't exist, append to it if it exists
-var log = fs.createWriteStream('log.txt', {'flags': 'a'});
+var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
 noble.on('stateChange', function(state) {
