@@ -41,6 +41,8 @@ Roadmap (TODO)
  * Mac OS X:
     * ~~Keypress Flash Lights~~
     * ~~Print Live Sensor Data and save to Log file~~
+    * SoftPWM extension for Servo Control
+    * Automated Motor Control for Self-Righting Body-Arching Project
     * Automated Motor Control for Self-Righting Winged Project
     * ~~keypress Motor Control~~
     * Send Live IMU Sensor Data to Computer
