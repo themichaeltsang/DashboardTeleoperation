@@ -8,25 +8,26 @@ __Note:__ Mac OS X is currently the only supported OS. Linux is possible, but co
 Prerequisites
 -----------
 
-* Mac Computer with OSX (Tested with 10.9.2) and Bluetooth 4.0
+* OSX (Tested with 10.9.2)
+* System OR Dongle Bluetooth 4.0 
 * DashBoard
-* npm from Node.js
 
 Install
 -------
+* [Install Node.js: click INSTALL](http://nodejs.org/)
 * Download root of this Dashboard Telemetry repository
 * [Learn how to customize DashBoard firmware](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files)
 * Replace DashBot.cpp and DashBot.h with the files provided in this repository's folder: custom_dashboard_firmware
 
-__Next, Install Dependencies__
-
-    npm install noble
-    npm install keypress
-    npm install fs
+Bluetooth Setup
+---------------
+* If you have system bluetooth 4.0, skip to next section
+* Else, select your bluetooth 4.0 donge by selecting host controller in the "Bluetooth Explorer" application   
 
 Usage
 -----
 __Run__
+in root directory
    
     node main.js 
    
@@ -55,6 +56,7 @@ Useful Links
  * [Dashboard](http://dashrobotics.com/collections/frontpage/products/dashboard-rdk)
  * [Dash Robotics Open Source Code](https://github.com/DashRobotics)
  * [node.js BLE central module](https://github.com/sandeepmistry/noble)
+ * [SoftPWM for Customizing Dashboard Pins](https://code.google.com/p/rogue-code/wiki/SoftPWMLibraryDocumentation)
 
 Contact
 =======
