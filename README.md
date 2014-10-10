@@ -23,13 +23,13 @@ Install
 Bluetooth Setup
 ---------------
 * If you have system bluetooth 4.0, skip to next section
-* Else, select your bluetooth 4.0 donge by selecting host controller in the "Bluetooth Explorer" application   
+* Else, select your bluetooth 4.0 dongle by selecting host controller in the "Bluetooth Explorer" application   
 
 Usage
 -----
 __Run__
 
-in root directory
+In root directory
    
     node main.js 
    
