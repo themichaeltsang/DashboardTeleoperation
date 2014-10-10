@@ -8,7 +8,8 @@ __Note:__ Mac OS X is currently the only supported OS. Linux is possible, but co
 Prerequisites
 -----------
 
-* OSX (Tested with 10.9.2)
+* Mac (tested with 2009 macbook and newer)
+* OSX (tested with 10.9.2 and newer)
 * System OR Dongle Bluetooth 4.0 
 * DashBoard
 
