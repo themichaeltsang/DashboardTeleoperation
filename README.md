@@ -15,7 +15,7 @@ Prerequisites
 
 Install
 -------
-* [Install Node.js: click INSTALL](http://nodejs.org/)
+* [Install Node.js: click "INSTALL"](http://nodejs.org/)
 * Download root of this Dashboard Telemetry repository
 * [Learn how to customize DashBoard firmware](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files)
 * Replace DashBot.cpp and DashBot.h with the files provided in this repository's folder: custom_dashboard_firmware
