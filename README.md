@@ -28,6 +28,7 @@ Bluetooth Setup
 Usage
 -----
 __Run__
+
 in root directory
    
     node main.js 
@@ -55,7 +56,7 @@ Roadmap (TODO)
 Useful Links
 ------------
  * [Dashboard](http://dashrobotics.com/collections/frontpage/products/dashboard-rdk)
- * [Dash Robotics Open Source Code](https://github.com/DashRobotics)
+ * [Dash Robotics Open Source Code (Firmware, PCB Schematic, iOS Controller)](https://github.com/DashRobotics)
  * [node.js BLE central module](https://github.com/sandeepmistry/noble)
  * [SoftPWM for Customizing Dashboard Pins](https://code.google.com/p/rogue-code/wiki/SoftPWMLibraryDocumentation)
 
