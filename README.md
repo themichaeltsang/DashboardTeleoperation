@@ -1,7 +1,7 @@
 Dashboard Telemetry
 ===================
 
-A BLE (Bluetooth Low Energy) central interface for the Dashboard Peripheral
+A BLE central interface for the Dashboard Peripheral
 
 __Note:__ Mac OS X is currently the only supported OS. Linux is possible, but compatibility will be enabled later.
 
