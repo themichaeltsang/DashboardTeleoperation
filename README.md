@@ -23,7 +23,7 @@ Install
 Bluetooth Setup
 ---------------
 * If you have system bluetooth 4.0, skip to next section
-* Else, select your bluetooth 4.0 dongle by selecting host controller in the "Bluetooth Explorer" application   
+* Else, select your bluetooth 4.0 dongle by selecting host controller in the ["Bluetooth Explorer"](http://www.geekguides.co.uk/414/how-to-select-a-bluetooth-adapter-in-os-x/) application   
 
 Usage
 -----

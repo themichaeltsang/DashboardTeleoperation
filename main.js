@@ -2,43 +2,66 @@ var keypress = require('keypress');
 var tty = require('tty');
 var noble = require('noble');
 var fs = require('fs');
+//var async = require('async');
 
 // initialize write-to-file capability - create log.txt if it doesn't exist, append to it if it exists
 var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
-noble.on('stateChange', function(state) {
-	console.log('SEARCHING FOR DASH');
-	if (state === 'poweredOn') {
-		noble.startScanning();
-	} else {
-		noble.stopScanning();
-	}
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+ 
+process.stdin.on('data', function (chunk) {
+ process.stdout.write('data: ' + chunk);
 });
 
-//Discover Dashboard Peripheral
-noble.on('discover', function(peripheral) {
-	if (peripheral.advertisement.localName === 'Dash v1.0') {
-		noble.stopScanning();
-		console.log('DASH DISCOVERED');
-		//UNCOMMENT THE FOLLOWING TO GET INFO ABOUT THE PERIPHERAL
-		
-		//var advertisement = peripheral.advertisement;
-		//var localName = advertisement.localName;
-		//var txPowerLevel = advertisement.txPowerLevel;
-		//var manufacturerData = advertisement.manufacturerData;
-		//var serviceData = advertisement.serviceData;
-		//var serviceUuids = advertisement.serviceUuids;
-		
-		peripheral.on('disconnect', function() {
-			process.exit(0);
-		});
-		explore(peripheral, function(){
-			console.log('DONE. EXITING.');
-			process.exit();
-		});
-	}
-});
+
+
+//ask("Name", /.+/, function(name) {
+//  ask("Email", /^.+@.+$/, function(email) {
+//    console.log("Your name is: ", name);
+//    console.log("Your email is:", email);
+ 
+	noble.on('stateChange', function(state) {
+		console.log('SEARCHING FOR DASH');
+		if (state === 'poweredOn') {
+			noble.startScanning();
+		} else {
+			noble.stopScanning();
+		}
+	});
+
+	//Discover Dashboard Peripheral
+	noble.on('discover', function(peripheral) {
+		if (peripheral.advertisement.localName === 'Dash v1.0') {
+			noble.stopScanning();
+			console.log('DASH DISCOVERED');
+			//UNCOMMENT THE FOLLOWING TO GET INFO ABOUT THE PERIPHERAL
+			
+			//var advertisement = peripheral.advertisement;
+			//var localName = advertisement.localName;
+			//var txPowerLevel = advertisement.txPowerLevel;
+			//var manufacturerData = advertisement.manufacturerData;
+			//var serviceData = advertisement.serviceData;
+			//var serviceUuids = advertisement.serviceUuids;
+			
+			peripheral.on('disconnect', function() {
+				process.exit(0);
+			});
+			explore(peripheral, function(){
+				console.log('DONE. EXITING.');
+				process.exit();
+			});
+		}
+	});
+
+
+    //process.exit();
+ // });
+//	});
+
+
+
 
 function explore(peripheral,callback) {
 	var service;
@@ -130,4 +153,23 @@ function explore(peripheral,callback) {
 	}
 	process.stdin.resume();
 	});
+}
+
+
+function ask(question, format, callback) {
+ var stdin = process.stdin, stdout = process.stdout;
+ 
+ stdin.resume();
+ stdout.write(question + ": ");
+ 
+ stdin.once('data', function(data) {
+   data = data.toString().trim();
+ 
+   if (format.test(data)) {
+     callback(data);
+   } else {
+     stdout.write("It should match: "+ format +"\n");
+     ask(question, format, callback);
+   }
+ });
 }
