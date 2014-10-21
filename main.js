@@ -8,12 +8,6 @@ var fs = require('fs');
 var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
- 
-process.stdin.on('data', function (chunk) {
- process.stdout.write('data: ' + chunk);
-});
 
 
 
@@ -119,8 +113,59 @@ function explore(peripheral,callback) {
 					console.log('d');
 					characteristic_write.write(new Buffer([7,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 					characteristic_write.write(new Buffer([8,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-
 				}
+				else if (key && key.name == 'z'){//MISO
+					console.log('z');
+					characteristic_write.write(new Buffer([9,5,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+
+				else if (key && key.name == 'x'){//MISO
+					console.log('x');
+					characteristic_write.write(new Buffer([9,7,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+
+				else if (key && key.name == 'c'){//MISO
+					console.log('c');
+					characteristic_write.write(new Buffer([9,9,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+
+
+				else if (key && key.name == 'v'){//MISO
+					console.log('v');
+					characteristic_write.write(new Buffer([9,11,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+				else if (key && key.name == 'b'){//MISO
+					console.log('b');
+					characteristic_write.write(new Buffer([9,13,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+
+
+
+				else if (key && key.name == 'g'){//MOSI
+					console.log('g');
+					characteristic_write.write(new Buffer([10,5,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+				else if (key && key.name == 'h'){//MOSI
+					console.log('h');
+					characteristic_write.write(new Buffer([10,7,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+				else if (key && key.name == 'j'){//MOSI
+					console.log('j');
+					characteristic_write.write(new Buffer([10,9,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+				else if (key && key.name == 'k'){//MOSI
+					console.log('k');
+					characteristic_write.write(new Buffer([10,11,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+				else if (key && key.name == 'l'){//MOSI
+					console.log('l');
+					characteristic_write.write(new Buffer([10,13,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+
+				//else if (key && key.name == 'x'){//MOSI
+				//	console.log('x');
+				//	characteristic_write.write(new Buffer([10,20,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				//}
 				//Keypress m: Set Message
 				//else if (key && key.name == 'm'){
 				//	console.log('m');
@@ -140,7 +185,7 @@ function explore(peripheral,callback) {
 				}
 				//Any other Keypress: Set Eye Color Null
 				else{
-					characteristic_write.write(new Buffer([4,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+					characteristic_write.write(new Buffer([2,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 				}
 			});
 		});
