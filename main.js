@@ -2,20 +2,22 @@ var keypress = require('keypress');
 var tty = require('tty');
 var noble = require('noble');
 var fs = require('fs');
-//var async = require('async');
+var sys = require("sys");
+var EventEmitter = require('events').EventEmitter;
 
 // initialize write-to-file capability - create log.txt if it doesn't exist, append to it if it exists
 var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
+// var emitter = new EventEmitter;
 
 
 
-//ask("Name", /.+/, function(name) {
-//  ask("Email", /^.+@.+$/, function(email) {
-//    console.log("Your name is: ", name);
-//    console.log("Your email is:", email);
- 
+
+	var stdin = process.openStdin();
+
+
+
 	noble.on('stateChange', function(state) {
 		console.log('SEARCHING FOR DASH');
 		if (state === 'poweredOn') {
@@ -39,20 +41,29 @@ var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 			//var serviceData = advertisement.serviceData;
 			//var serviceUuids = advertisement.serviceUuids;
 			
+
 			peripheral.on('disconnect', function() {
 				process.exit(0);
 			});
-			explore(peripheral, function(){
-				console.log('DONE. EXITING.');
-				process.exit();
+
+			process.stdin.on("data", function(data) {
+				console.log("recieved " + data);
+				stdin.removeAllListeners('data');
+
+
+				explore(peripheral, function(){
+					console.log('DONE. EXITING.');
+					process.exit();
+				});
 			});
 		}
 	});
 
 
-    //process.exit();
- // });
-//	});
+
+//     //process.exit();
+//  // });
+// //	});
 
 
 
