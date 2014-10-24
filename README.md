@@ -23,7 +23,7 @@ Install
 Bluetooth Setup
 ---------------
 * If you have system bluetooth 4.0, skip to next section
-* Else, select your bluetooth 4.0 dongle by selecting host controller in the "Bluetooth Explorer" application   
+* Else, select your bluetooth 4.0 dongle by selecting host controller in the ["Bluetooth Explorer"](http://www.geekguides.co.uk/414/how-to-select-a-bluetooth-adapter-in-os-x/) application   
 
 Usage
 -----
@@ -37,7 +37,9 @@ __Keypress commands__
 
     press q-> green, press w-> blue, press e-> red
     press a-> L motor, press s-> R motor, press d-> stop motors
-    press n-> get live telemetry data    
+    press n-> get live telemetry data
+    press z,x,c,v,b -> MISO servo positions
+    press g,h,j,k,l -> MOSI servo positions    
 
 Roadmap (TODO)
 -------------
@@ -45,8 +47,8 @@ Roadmap (TODO)
     * ~~Keypress Flash Lights~~
     * ~~Print Live Sensor Data and save to Log file~~
     * ~~Keypress Motor Control~~ 
+    * ~~SoftPWM extension for Servo Control~~
     * Program Interactivity
-    * SoftPWM extension for Servo Control
     * Automated Motor Control for Self-Righting Body-Arching Project
     * Send Live IMU Sensor Data to Computer
     * Autonomous Behavior: Apply Control Theory/Machine Learning/Formal Methods Algorithms  
@@ -58,10 +60,11 @@ Useful Links
  * [Dashboard](http://dashrobotics.com/collections/frontpage/products/dashboard-rdk)
  * [Dash Robotics Open Source Code (Firmware, PCB Schematic, iOS Controller)](https://github.com/DashRobotics)
  * [node.js BLE central module](https://github.com/sandeepmistry/noble)
- * [SoftPWM for Customizing Dashboard Pins](https://code.google.com/p/rogue-code/wiki/SoftPWMLibraryDocumentation)
+ * [SoftPWM for Customizing Output of Dashboard Pins](https://code.google.com/p/rogue-code/wiki/SoftPWMLibraryDocumentation)
 
 Contact
 =======
 
 Michael Tsang <themichaeltsang@gmail.com> (2014)
 
+Special Thanks to Dr Chen Li, Kaushik Jarayam, Dwight Swingthorpe, Mari Batilando, and Sandeep Mistry

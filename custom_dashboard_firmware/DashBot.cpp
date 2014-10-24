@@ -7,6 +7,7 @@
 
 #include "Arduino.h"
 #include "DashBot.h"
+#include <SoftPWM.h>
 
 DashBot::DashBot(void)
 {  
@@ -489,6 +490,12 @@ void DashBot::executeRadioCommand(void)
     case 8:
       motorDriveR(receivedRadioPacket[1]);
       break;
+    case 9:
+      SoftPWMSetPercent(MISO,receivedRadioPacket[1]);
+      break;
+    case 10:
+      SoftPWMSetPercent(MOSI,receivedRadioPacket[1]);
+      break;
     default:
       setEyeColor(100,0,100); //purple
       clearRadioPacket();
@@ -749,6 +756,14 @@ void DashBot::dashPacketHandler(void){
 
 // setup Dash for iOS app
 void DashBot::dashRadioSetup(void){
+
+  SoftPWMBegin();
+  SoftPWMSet(MISO, 100);
+  SoftPWMSetFadeTime(MISO, 200, 1000);
+  SoftPWMSet(MOSI, 100);
+  SoftPWMSetFadeTime(MOSI, 200, 1000);
+
+  
   startupBlink(); // green LED high
   setupSystemFunctions(); //sets up serial radio and USB
   setupIRsensors(); // baseline for IR sensors
