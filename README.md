@@ -67,4 +67,8 @@ Contact
 
 Michael Tsang <themichaeltsang@gmail.com> (2014)
 
+<<<<<<< HEAD
 Special Thanks to Dr Chen Li, Kaushik Jarayam, Dwight Swingthorpe, Mari Batilando, and Sandeep Mistry
+=======
+Special Thanks to Mari Batilando, Dr Chen Li, Kaushik Jarayam, and Dwight Swingthorpe 
+>>>>>>> 652b9a508be9fb6481e7c665a4652c623b793c0a

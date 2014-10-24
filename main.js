@@ -2,14 +2,31 @@ var keypress = require('keypress');
 var tty = require('tty');
 var noble = require('noble');
 var fs = require('fs');
+<<<<<<< HEAD
 //var sys = require("sys");
 var async = require("async");
 //var EventEmitter = require('events').EventEmitter;
+=======
+var sys = require("sys");
+var EventEmitter = require('events').EventEmitter;
+>>>>>>> 652b9a508be9fb6481e7c665a4652c623b793c0a
 
 // initialize write-to-file capability - create log.txt if it doesn't exist, append to it if it exists
 var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
+<<<<<<< HEAD
+=======
+// var emitter = new EventEmitter;
+
+
+
+
+	var stdin = process.openStdin();
+
+
+
+>>>>>>> 652b9a508be9fb6481e7c665a4652c623b793c0a
 	noble.on('stateChange', function(state) {
 		console.log('SEARCHING FOR DASH');
 		if (state === 'poweredOn') {
@@ -31,11 +48,17 @@ var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 			//var txPowerLevel = advertisement.txPowerLevel;
 			//var manufacturerData = advertisement.manufacturerData;
 			//var serviceData = advertisement.serviceData;
+<<<<<<< HEAD
 			//var serviceUuids = advertisement.serviceUuids;	
+=======
+			//var serviceUuids = advertisement.serviceUuids;
+			
+>>>>>>> 652b9a508be9fb6481e7c665a4652c623b793c0a
 
 			peripheral.on('disconnect', function() {
 				process.exit(0);
 			});
+<<<<<<< HEAD
 			ask("write sensor data to file? (y/n)", /(y|n)/, function(sensor) {
 				ask("left motor speed (1-100)", /^(100|[1-9][0-9]|[1-9])$/, function(motorspeedL) {
 					ask("right motor speed (1-100)", /^(100|[1-9][0-9]|[1-9])$/, function(motorspeedR) {
@@ -45,6 +68,30 @@ var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 							process.exit();
 						});
 					});
+=======
+
+			process.stdin.on("data", function(data) {
+				console.log("recieved " + data);
+				stdin.removeAllListeners('data');
+
+
+				explore(peripheral, function(){
+					console.log('DONE. EXITING.');
+					process.exit();
+				});
+			});
+		}
+	});
+
+
+
+//     //process.exit();
+//  // });
+// //	});
+
+
+
+>>>>>>> 652b9a508be9fb6481e7c665a4652c623b793c0a
 
 				});
 			});
@@ -149,6 +196,7 @@ function explore(peripheral, arr, callback) {
 					characteristic_write.write(new Buffer([9,9,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 				}
 
+<<<<<<< HEAD
 
 				else if (key && key.name == 'v'){//MISO
 					console.log('v');
@@ -165,6 +213,24 @@ function explore(peripheral, arr, callback) {
 					console.log('g');
 					characteristic_write.write(new Buffer([10,5,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 				}
+=======
+
+				else if (key && key.name == 'v'){//MISO
+					console.log('v');
+					characteristic_write.write(new Buffer([9,11,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+				else if (key && key.name == 'b'){//MISO
+					console.log('b');
+					characteristic_write.write(new Buffer([9,13,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+
+
+
+				else if (key && key.name == 'g'){//MOSI
+					console.log('g');
+					characteristic_write.write(new Buffer([10,5,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+				}
+>>>>>>> 652b9a508be9fb6481e7c665a4652c623b793c0a
 				else if (key && key.name == 'h'){//MOSI
 					console.log('h');
 					characteristic_write.write(new Buffer([10,7,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
