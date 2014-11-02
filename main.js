@@ -103,6 +103,19 @@ function explore(peripheral, arr, callback) {
     				process.exit()
 
 				}
+				//Keypress p: Start Automation
+				if (key && key.name == 'p'){
+					var start = Date.now();
+					console.log('p');
+
+					setTimeout(function(){ characteristic_write.write(new Buffer([7,lspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback); }, 10);
+
+					// expecting something close to 500
+					//setTimeout(function(){ console.log(Date.now() - start); }, 600);
+					setTimeout(function(){ characteristic_write.write(new Buffer([7,lspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback); }, 2000);
+				}
+
+
 				//Keypress q: Set Eye Color Green
 				if (key &&  key.name == 'q'){
 					console.log('q');
@@ -141,7 +154,7 @@ function explore(peripheral, arr, callback) {
 					characteristic_write.write(new Buffer([7,lspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 				}
 				//Keypress s: Control Right Motor
-				else if (key &&  key.name == 's'){					
+				else if (key &&  key.name == 's'){				
 					console.log('s');
 					characteristic_write.write(new Buffer([8,rspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 				}

@@ -48,7 +48,7 @@ Roadmap (TODO)
     * ~~Print Live Sensor Data and save to Log file~~
     * ~~Keypress Motor Control~~ 
     * ~~SoftPWM extension for Servo Control~~
-    * ~~Program Interactivity~~
+    * Program Interactivity, Automation, Easy to Use Code
     * Automated Motor Control for Self-Righting Body-Arching Project
     * Send Live IMU Sensor Data to Computer
     * Autonomous Behavior: Apply Control Theory/Machine Learning/Formal Methods Algorithms  
