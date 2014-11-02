@@ -41,6 +41,12 @@ __Keypress commands__
     press z,x,c,v,b -> MISO servo positions
     press g,h,j,k,l -> MOSI servo positions    
 
+__Programmable Functions__
+
+    Delay
+    Run Motor (Which one, speed for each, duration for each)
+    Can Sensors work within delay (timeout) period? see how feedback loops and automoation work in Dash Firmware
+
 Roadmap (TODO)
 -------------
  * Mac OS X:
