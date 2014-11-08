@@ -53,8 +53,15 @@ Roadmap (TODO)
     * ~~Keypress Flash Lights~~
     * ~~Print Live Sensor Data and save to Log file~~
     * ~~Keypress Motor Control~~ 
-    * ~~SoftPWM extension for Servo Control~~
-    * Program Interactivity, Automation, Easy to Use Code
+    * SoftPWM extension for Servo Control
+	Fix Conflicts between MISO/MOSI and right(?) motor speed
+    * Program Interactivity, Automation
+	~~Keypress Turn Right, Turn Left, Go Forward, Go Backward~~
+	~~Delayed Events~~
+	Differentiate Keydown and Keypress
+	Timed Automation
+	Gyro-Assisted Steering
+	Parse external file with parameters
     * Automated Motor Control for Self-Righting Body-Arching Project
     * Send Live IMU Sensor Data to Computer
     * Autonomous Behavior: Apply Control Theory/Machine Learning/Formal Methods Algorithms  
