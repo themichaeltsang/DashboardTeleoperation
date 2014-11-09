@@ -30,6 +30,7 @@ Usage
 __Set Parameters__
 
 Edit 
+
     PARAMS.js
 
 __Run__
@@ -41,6 +42,7 @@ In root directory
 __Keypress commands__
 
 Default 
+
     press w-> move forward
     press s-> move backward
     press d-> turn right
