@@ -5,6 +5,11 @@ var fs = require('fs');
 var async = require("async");
 var sys = require("sys");
 var EventEmitter = require('events').EventEmitter;
+var params = require("./PARAMS");
+
+
+
+
 
 // initialize write-to-file capability - create log.txt if it doesn't exist, append to it if it exists
 var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
@@ -263,10 +268,6 @@ function explore(peripheral, arr, callback) {
 
 				// listen for the "keypress" event
 				process.stdin.on('keypress', function (ch, key) {
-					if (!key){
-						motorDriveL(0,callback);
-						motorDriveR(0,callback);
-					}
 					//Keypress Ctrl c: EXIT
 					if (key && key.ctrl && key.name == 'c') {
 						async.waterfall([
@@ -350,10 +351,10 @@ function explore(peripheral, arr, callback) {
 					// }
 
 
-					else if (key &&  key.name == 'w'){
-						console.log('w');
-						motorDriveL(100,callback);
-						motorDriveR(100,callback);
+					else if (key &&  key.name == params.Run_Forward_KEY){
+						console.log(params.Run_Forward_KEY);
+						motorDriveL(params.Forward_Speed, callback);
+						motorDriveR(params.Forward_Speed, callback);
 
 						// setTimeout(function(){
 						// 	motorDriveL(0,callback);
@@ -369,10 +370,10 @@ function explore(peripheral, arr, callback) {
 					// 		motorDriveR(-100,callback);
 					// 	}
 
-					else if (key &&  key.name == 's'){
-						console.log('s');
-						motorDriveL(-100,callback);
-						motorDriveR(-100,callback);
+					else if (key &&  key.name == params.Run_Backward_KEY){
+						console.log(params.Run_Backward_KEY);
+						motorDriveL(-1*params.Backward_Speed, callback);
+						motorDriveR(-1*params.Backward_Speed, callback);
 
 						// setTimeout(function(){
 						// 	motorDriveL(0,callback);
@@ -381,36 +382,35 @@ function explore(peripheral, arr, callback) {
 					}
 
 					//Turn left
-					else if (key &&  key.name == 'a'){
-						console.log('a');
-						motorDriveR(30,callback);
-
+					else if (key &&  key.name == params.Turn_R_KEY){
+						console.log(params.Turn_R_KEY);
+						motorDriveR(params.R_Turn_Angular_Velocity, callback);
+						motorDriveL(-1*params.R_Turn_Angular_Velocity, callback);
 
 						setTimeout(function(){
 							motorDriveR(0,callback);
-						},400);
-						//motorDriveL(0,callback);
-
-						//characteristic_write.write(new Buffer([7,lspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+							motorDriveL(0,callback);
+						},params.Turn_Duration);
 					}
 
 					//Turn right
-					else if (key &&  key.name == 'd'){
-						console.log('d');
-						motorDriveL(30,callback);
-						//motorDriveR(0,callback);
+					else if (key &&  key.name == params.Turn_L_KEY){
+						console.log(params.Turn_L_KEY);
+						motorDriveR(-1*params.L_Turn_Angular_Velocity,callback);
+						motorDriveL(params.L_Turn_Angular_Velocity,callback);
 
 						setTimeout(function(){
 							motorDriveL(0,callback);
-						},400);
+							motorDriveR(0,callback);
+						},params.Turn_Duration);
+					}
 
-					}
 					//Keypress d: Stop Motors
-					else if (key && key.name == 'f'){//turn motors off
-						console.log('f');
-						motorDriveR(0,callback);
-						motorDriveL(0,callback);
-					}
+					// else if (key && key.name == 'f'){//turn motors off
+					// 	console.log('f');
+					// 	motorDriveR(0,callback);
+					// 	motorDriveL(0,callback);
+					// }
 
 
 
@@ -420,21 +420,21 @@ function explore(peripheral, arr, callback) {
 						characteristic_write.write(new Buffer([3,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 					}
 					//Keypress ctrl s: Speed up Motor
-					else if (key &&  key.name == 's' && key.ctrl){
-						if (rspeed<95){
-							console.log('^s');
-							rspeed = rspeed + 3;
-						}
-						characteristic_write.write(new Buffer([8,rspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-					}
+					// else if (key &&  key.name == 's' && key.ctrl){
+					// 	if (rspeed<95){
+					// 		console.log('^s');
+					// 		rspeed = rspeed + 3;
+					// 	}
+					// 	characteristic_write.write(new Buffer([8,rspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+					// }
 					//Keypress shift s: Slow down Motor
-					else if (key &&  key.name == 's' && key.shift){
-						if (rspeed>5){
-							console.log('sft s');
-							rspeed = rspeed - 3;
-						}
-						characteristic_write.write(new Buffer([8,rspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-					}
+					// else if (key &&  key.name == 's' && key.shift){
+					// 	if (rspeed>5){
+					// 		console.log('sft s');
+					// 		rspeed = rspeed - 3;
+					// 	}
+					// 	characteristic_write.write(new Buffer([8,rspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+					// }
 
 
 

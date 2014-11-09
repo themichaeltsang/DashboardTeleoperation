@@ -27,6 +27,11 @@ Bluetooth Setup
 
 Usage
 -----
+__Set Parameters__
+
+Edit 
+    PARAMS.js
+
 __Run__
 
 In root directory
@@ -35,17 +40,15 @@ In root directory
    
 __Keypress commands__
 
-    press q-> green, press w-> blue, press e-> red
-    press a-> L motor, press s-> R motor, press d-> stop motors
+Default 
+    press w-> move forward
+    press s-> move backward
+    press d-> turn right
+    press a-> turn left
+
+    press p-> start specified AUTO mode
     press n-> get live telemetry data
-    press z,x,c,v,b -> MISO servo positions
-    press g,h,j,k,l -> MOSI servo positions    
-
-__Programmable Functions__
-
-    Delay
-    Run Motor (Which one, speed for each, duration for each)
-    Can Sensors work within delay (timeout) period? see how feedback loops and automoation work in Dash Firmware
+  
 
 Roadmap (TODO)
 -------------
@@ -59,9 +62,10 @@ Roadmap (TODO)
         * ~~Keypress Turn Right, Turn Left, Go Forward, Go Backward~~
         * ~~Delayed Events~~
         * Differentiate Keydown and Keypress
+	* Control Speed of Wing Flap
         * Timed Automation
         * Gyro-Assisted Steering
-        * Parse external file with parameters
+        * ~~Parse external file with parameters~~
     * Automated Motor Control for Self-Righting Body-Arching Project
     * Send Live IMU Sensor Data to Computer
     * Autonomous Behavior: Apply Control Theory/Machine Learning/Formal Methods Algorithms  
