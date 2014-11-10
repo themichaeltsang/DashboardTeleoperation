@@ -275,23 +275,19 @@ function explore(peripheral, arr, callback) {
 				
 				//console.log(global.gyro_init);
 
+	
+				setSensorEmitDelay(1000/params.Rate_of_Sensor_Data_Arrival, callback);
 
-				setSensorEmitDelay(params.Delay_between_Sensor_Readings, callback);
-
-					// make `process.stdin` begin emitting "keypress" events
+				// make `process.stdin` begin emitting "keypress" events
 				keypress(process.stdin);
 
-				//motorDriveR(0,callback);
-				//motorDriveL(0,callback);
-
-				//console.log('n');
 
 				if (params.Save_Sensor_Data){
 					console.log('\tSaving sensor data');
 					log.write(new Date().toString() + '\n');
 
 					characteristic_notify.on('read', function(data, isNotification) {
-						//console.log(data.toString('hex'));
+						console.log(data.toString('hex'));
 						log.write(data.toString('hex') + '\n');
 					});
 					// true to enable notify

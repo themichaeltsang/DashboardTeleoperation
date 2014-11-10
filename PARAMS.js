@@ -10,7 +10,7 @@
 //EDIT PARAMETERS HERE
 	//TELEMETRY
 		define(	'Save_Sensor_Data', true );//~~
-		define(	'Delay_between_Sensor_Readings', 50 ); //(ms)~~
+		define(	'Rate_of_Sensor_Data_Arrival', 60 ); //(<= 100Hz, 50Hz Safe)~~
 		define( 'Notify_Significant_Changes_in_Live_Sensor_Data', true);
 
 	//TELECOMMAND
