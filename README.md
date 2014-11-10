@@ -67,7 +67,7 @@ Roadmap (TODO)
         * ~~Keypress Turn Right, Turn Left, Go Forward, Go Backward~~
         * ~~Delayed Events~~
         * Differentiate Keydown and Keypress
-	* Control Speed of Wing Flap
+        * Control Speed of Wing Flap
         * Timed Automation
         * Gyro-Assisted Steering
         * ~~Parse external file with parameters~~
