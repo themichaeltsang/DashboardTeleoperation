@@ -1,5 +1,5 @@
-Dashboard Telemetry
-===================
+Dashboard Telemetry and Telecommand
+===================================
 
 A BLE central interface for the Dashboard Peripheral
 
