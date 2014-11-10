@@ -30,7 +30,9 @@ Usage
 -----
 __Set Parameters__
  
-In PARAMS.js in root directory 
+Edit
+
+    PARAMS.js 
 
 __Run__
 
