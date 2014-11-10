@@ -44,7 +44,7 @@ Set Telemetry Parameters
     define( 'Rate_of_Sensor_Data_Arrival', 100 ); //in Hz
     ...
 
-Set Telecommands
+Set Telecommand Parameters
 
     define( 'Forward_Speed', 80 ); //unitless 1-100
     define( 'Backward_Speed', 100 );
