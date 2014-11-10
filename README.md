@@ -26,23 +26,6 @@ Bluetooth Setup
 * If you have system bluetooth 4.0, skip to next section
 * Else, select your bluetooth 4.0 dongle by selecting host controller in the ["Bluetooth Explorer"](http://www.geekguides.co.uk/414/how-to-select-a-bluetooth-adapter-in-os-x/) application   
 
-Usage
------
-__Set Parameters__
- 
-Edit file:
-
-    PARAMS.js 
-
-__Run__
-
-Enter terminal command in root directory:
-   
-    node main.js 
-   
-__Keypress to Trigger Robot Behavior__
-
-
 Parameter Definitions
 ---------------------
 __Set Keypress Definitions__
@@ -54,6 +37,19 @@ In PARAMS.js
     define( 'Turn_R_KEY, 'd' );
     define( 'Turn_L_KEY, 'a' );
     ...  
+
+Usage
+-----
+__Run__
+
+In root directory:
+   
+    node main.js 
+   
+__Trigger Robot Behavior__
+
+Keypress
+
 
 Roadmap (TODO)
 -------------
