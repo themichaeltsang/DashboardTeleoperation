@@ -40,9 +40,12 @@ Enter terminal command in root directory:
    
     node main.js 
    
-__Default Keypress commands__
+Keypress to Trigger Robot Behavior
 
-Press:
+
+Examples
+--------
+__Set Keypress Definitions__
 
     w-> move forward
     s-> move backward
