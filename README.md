@@ -43,8 +43,8 @@ Enter terminal command in root directory:
 __Keypress to Trigger Robot Behavior__
 
 
-Examples
---------
+Parameter Definitions
+---------------------
 __Set Keypress Definitions__
 
 In PARAMS.js
