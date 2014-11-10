@@ -38,6 +38,21 @@ Set Keypress Definitions
     define( 'Turn_L_KEY, 'a' );
     ...  
 
+Set Telemetry Parameters
+
+    define( 'Save_Sensor_Data', true );
+    define( 'Rate_of_Sensor_Data_Arrival', 100 ); //in Hz
+    ...
+
+Set Telecommands
+
+    define( 'Forward_Speed', 80 ); //unitless 1-100
+    define( 'Backward_Speed', 100 );
+    define( 'R_Turn_Angular_Velocity', 70 ); //unitless 1-100
+    define( 'L_Turn_Angular_Velocity', 70 );
+    define( 'Turn_Duration', 300 ); //(ms)
+    ...
+
 Usage
 -----
 __Run__

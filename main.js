@@ -266,7 +266,7 @@ function explore(peripheral, arr, callback) {
 			global.characteristic_write = characteristics[1];
 
 
-			console.log('\tInitializing Gyro');
+			console.log('\tInitializing gyro');
 
 			gyroSetup(function(gyro_init){
 
@@ -287,7 +287,7 @@ function explore(peripheral, arr, callback) {
 					log.write(new Date().toString() + '\n');
 
 					characteristic_notify.on('read', function(data, isNotification) {
-						console.log(data.toString('hex'));
+						//console.log(data.toString('hex'));
 						log.write(data.toString('hex') + '\n');
 					});
 					// true to enable notify
