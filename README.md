@@ -29,10 +29,8 @@ Bluetooth Setup
 Usage
 -----
 __Set Parameters__
-
-Edit 
-
-    PARAMS.js
+ 
+In PARAMS.js in root directory 
 
 __Run__
 
