@@ -40,21 +40,20 @@ Enter terminal command in root directory:
    
     node main.js 
    
-Keypress to Trigger Robot Behavior
+__Keypress to Trigger Robot Behavior__
 
 
 Examples
 --------
 __Set Keypress Definitions__
 
-    w-> move forward
-    s-> move backward
-    d-> turn right
-    a-> turn left
+In PARAMS.js
 
-    p-> start specified AUTO mode
-    n-> get live telemetry data
-  
+    define( 'Run_Forward_KEY', 'a' );
+    define( 'Run_Backward_KEY', 's' );
+    define( 'Turn_R_KEY, 'd' );
+    define( 'Turn_L_KEY, 'a' );
+    ...  
 
 Roadmap (TODO)
 -------------
