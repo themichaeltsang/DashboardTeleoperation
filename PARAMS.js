@@ -9,16 +9,16 @@
 
 //EDIT PARAMETERS HERE
 	//TELEMETRY
-		define(	'Save_Sensor_Data', true );
-		define(	'Rate_of_Sensor_Reading', 40 );
+		define(	'Save_Sensor_Data', true );//~~
+		define(	'Delay_between_Sensor_Readings', 50 ); //(ms)~~
 		define( 'Notify_Significant_Changes_in_Live_Sensor_Data', true);
 
 	//TELECOMMAND
 		//~~MOTORS - set running behavior~~
-		define( 'Forward_Speed', 50 ); //1-100
-		define(	'Backward_Speed', 50 );
-		define( 'R_Turn_Angular_Velocity', 50 ); //1-100
-		define( 'L_Turn_Angular_Velocity', 50 );
+		define( 'Forward_Speed', 80 ); //1-100
+		define(	'Backward_Speed', 100 );
+		define( 'R_Turn_Angular_Velocity', 70 ); //1-100
+		define( 'L_Turn_Angular_Velocity', 70 );
 		define( 'Turn_Duration', 300 ); //(ms)
 
 		//SERVOS - set wing behavior

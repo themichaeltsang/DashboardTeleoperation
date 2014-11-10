@@ -47,49 +47,29 @@ var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
 			peripheral.on('disconnect', function() {
 				process.exit(0);
 			});
-			ask("write sensor data to file? (y/n)", /(y|n)/, function(sensor) {
-				ask("left motor speed (1-100)", /^(100|[1-9][0-9]|[1-9])$/, function(motorspeedL) {
-					ask("right motor speed (1-100)", /^(100|[1-9][0-9]|[1-9])$/, function(motorspeedR) {
-						var arr = [sensor,motorspeedL,motorspeedR];
-						explore(peripheral, arr, function(){
-							console.log('DONE. EXITING.');
-							process.exit();
-						});
-					});
-				});
+
+			explore(peripheral, function(){
+				console.log('DONE. EXITING.');
+				process.exit();
 			});
+			// ask("write sensor data to file? (y/n)", /(y|n)/, function(sensor) {
+			// 	ask("left motor speed (1-100)", /^(100|[1-9][0-9]|[1-9])$/, function(motorspeedL) {
+			// 		ask("right motor speed (1-100)", /^(100|[1-9][0-9]|[1-9])$/, function(motorspeedR) {
+			// 			var arr = [sensor,motorspeedL,motorspeedR];
+			// 			explore(peripheral, arr, function(){
+			// 				console.log('DONE. EXITING.');
+			// 				process.exit();
+			// 			});
+			// 		});
+			// 	});
+			// });
 		}
 	});
 
 
-
 ////////////////////////////////////////////////////////////////////////////////
-// Motor, Gyro, Control functions
+// Telemetry functions
 ////////////////////////////////////////////////////////////////////////////////
-
-//Valid SERVO Positions 5-13
-function servoPositionL(pos, callback){
-	global.characteristic_write.write(new Buffer([9,pos,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-}
-function servoPositionR(pos, callback){
-	global.characteristic_write.write(new Buffer([10,pos,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-}
-
-
-function motorDriveL(motor_pwm, callback){
-
-	if (motor_pwm < 0) {
-		motor_pwm = (-1*motor_pwm) + 100;
-	}
-	global.characteristic_write.write(new Buffer([7,motor_pwm,1,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-}
-function motorDriveR(motor_pwm, callback){
-	if (motor_pwm < 0) {
-		motor_pwm = (-1*motor_pwm) + 100;
-	}
-	global.characteristic_write.write(new Buffer([7,motor_pwm,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-}
-
 
 function gyroSetup(callback)
 {
@@ -100,30 +80,30 @@ function gyroSetup(callback)
 	//avoiding for loop implementation for now
 	readGyroRaw(function(raw) {
 		val += raw;
-		console.log(val);
+		//console.log(val);
 	});
 	setTimeout(function(){
 		readGyroRaw(function(raw) {
 			val += raw;
-			console.log(val);
+			//console.log(val);
 		});
 	},50);
 	setTimeout(function(){
 		readGyroRaw(function(raw) {
 			val += raw;
-			console.log(val);
+			//console.log(val);
 		});
 	},100);
 	setTimeout(function(){
 		readGyroRaw(function(raw) {
 			val += raw;
-			console.log(val);
+			//console.log(val);
 		});
 	},150);
 	setTimeout(function(){
 		readGyroRaw(function(raw) {
 			val += raw;
-			console.log(val);
+			//console.log(val);
 			callback(val/5);
 		});
 	},200);
@@ -157,6 +137,41 @@ function readGyroDeg(callback)
 	callback(gyro_deg);
 
 }
+
+function setSensorEmitDelay(delay, callback){
+	global.characteristic_write.write(new Buffer([8,delay,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Telecommand functions
+////////////////////////////////////////////////////////////////////////////////
+
+//Valid SERVO Positions 5-13
+function servoPositionL(pos, callback){
+	global.characteristic_write.write(new Buffer([9,pos,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+}
+function servoPositionR(pos, callback){
+	global.characteristic_write.write(new Buffer([10,pos,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+}
+
+
+function motorDriveL(motor_pwm, callback){
+
+	if (motor_pwm < 0) {
+		motor_pwm = (-1*motor_pwm) + 100;
+	}
+	global.characteristic_write.write(new Buffer([7,motor_pwm,1,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+}
+function motorDriveR(motor_pwm, callback){
+	if (motor_pwm < 0) {
+		motor_pwm = (-1*motor_pwm) + 100;
+	}
+	global.characteristic_write.write(new Buffer([7,motor_pwm,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+}
+
+
+
 
 //With Gyro-Assisted Steering
 function dashRun(ref_pwm, ref_yaw){
@@ -232,8 +247,8 @@ function dashRun(ref_pwm, ref_yaw){
 
 function explore(peripheral, arr, callback) {
 	var service;
-	rspeed = parseInt(arr[2]);
-	lspeed = parseInt(arr[1]);
+	//rspeed = parseInt(arr[2]);
+	//lspeed = parseInt(arr[1]);
 	global.err_integral = 0;
 	peripheral.connect(function () {
 	//console.log('CONNECTED');
@@ -251,19 +266,40 @@ function explore(peripheral, arr, callback) {
 			global.characteristic_write = characteristics[1];
 
 
-			console.log('INITIALIZING GYRO');
+			console.log('\tInitializing Gyro');
 
 			gyroSetup(function(gyro_init){
-				console.log('RUNNING');
-				console.log(gyro_init);
+
+				//console.log(gyro_init);
 				global.gyro_init = gyro_init;
+				
 				//console.log(global.gyro_init);
 
-				// make `process.stdin` begin emitting "keypress" events
+
+				setSensorEmitDelay(params.Delay_between_Sensor_Readings, callback);
+
+					// make `process.stdin` begin emitting "keypress" events
 				keypress(process.stdin);
 
 				//motorDriveR(0,callback);
 				//motorDriveL(0,callback);
+
+				//console.log('n');
+
+				if (params.Save_Sensor_Data){
+					console.log('\tSaving sensor data');
+					log.write(new Date().toString() + '\n');
+
+					characteristic_notify.on('read', function(data, isNotification) {
+						//console.log(data.toString('hex'));
+						log.write(data.toString('hex') + '\n');
+					});
+					// true to enable notify
+					//characteristic_notify.notify(true, function(error) {
+					//	console.log('telemetry notification on');
+					//});
+				}
+				console.log('RUNNING');
 
 
 				// listen for the "keypress" event
@@ -512,6 +548,7 @@ function explore(peripheral, arr, callback) {
 					else{
 						characteristic_write.write(new Buffer([2,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 					}
+					
 				});
 			});
 		});
