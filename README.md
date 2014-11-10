@@ -28,9 +28,9 @@ Bluetooth Setup
 
 Parameter Definitions
 ---------------------
-__Set Keypress Definitions__
+__In PARAMS.js__
 
-In PARAMS.js
+Set Keypress Definitions
 
     define( 'Run_Forward_KEY', 'a' );
     define( 'Run_Backward_KEY', 's' );
@@ -48,7 +48,7 @@ In root directory:
    
 __Trigger Robot Behavior__
 
-Keypress
+Use Keypresses to Trigger
 
 
 Roadmap (TODO)
