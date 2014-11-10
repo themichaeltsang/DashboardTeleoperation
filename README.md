@@ -30,27 +30,27 @@ Usage
 -----
 __Set Parameters__
  
-Edit
+Edit file:
 
     PARAMS.js 
 
 __Run__
 
-In root directory
+Enter terminal command in root directory:
    
     node main.js 
    
-__Keypress commands__
+__Default Keypress commands__
 
-Default 
+Press:
 
-    press w-> move forward
-    press s-> move backward
-    press d-> turn right
-    press a-> turn left
+    w-> move forward
+    s-> move backward
+    d-> turn right
+    a-> turn left
 
-    press p-> start specified AUTO mode
-    press n-> get live telemetry data
+    p-> start specified AUTO mode
+    n-> get live telemetry data
   
 
 Roadmap (TODO)
