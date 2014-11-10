@@ -1,7 +1,9 @@
 Dashboard Telemetry and Telecommand
 ===================================
 
-A BLE central interface for the Dashboard Peripheral
+A BLE central interface for the Dashboard Peripheral, allowing...
+Programmable telemetry and telecommand of small, lightweight robots
+
 
 __Note:__ Mac OS X is currently the only supported OS. Linux is possible, but compatibility will be enabled later.
 
