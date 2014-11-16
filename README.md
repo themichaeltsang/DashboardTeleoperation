@@ -73,7 +73,7 @@ Roadmap (TODO)
     * ~~Print Live Sensor Data and save to Log file~~
     * ~~Keypress Motor Control~~ 
     * SoftPWM extension for Servo Control
-        * Fix Conflicts between MISO/MOSI and right(?) motor speed
+        * Fix Conflicts between SoftPWM timer and timer for right(?) motor speed
     * Program Interactivity, Automation
         * ~~Keypress Turn Right, Turn Left, Go Forward, Go Backward~~
         * ~~Delayed Events~~
