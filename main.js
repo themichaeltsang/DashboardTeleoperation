@@ -12,7 +12,7 @@ var params = require("./PARAMS");
 
 
 // initialize write-to-file capability - create log.txt if it doesn't exist, append to it if it exists
-var log = fs.createWriteStream('sensorlog.txt', {'flags': 'a'});
+var log = fs.createWriteStream('sensorlog.csv', {'flags': 'a'});
 // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
 
@@ -78,30 +78,30 @@ function gyroSetup(callback)
 
 	//read the gyro 5 times in 50 ms
 	//avoiding for loop implementation for now
-	readGyroRaw(function(raw) {
+	readGyroDeg(function(raw) {
 		val += raw;
 		//console.log(val);
 	});
 	setTimeout(function(){
-		readGyroRaw(function(raw) {
+		readGyroDeg(function(raw) {
 			val += raw;
 			//console.log(val);
 		});
 	},50);
 	setTimeout(function(){
-		readGyroRaw(function(raw) {
+		readGyroDeg(function(raw) {
 			val += raw;
 			//console.log(val);
 		});
 	},100);
 	setTimeout(function(){
-		readGyroRaw(function(raw) {
+		readGyroDeg(function(raw) {
 			val += raw;
 			//console.log(val);
 		});
 	},150);
 	setTimeout(function(){
-		readGyroRaw(function(raw) {
+		readGyroDeg(function(raw) {
 			val += raw;
 			//console.log(val);
 			callback(val/5);
@@ -109,25 +109,33 @@ function gyroSetup(callback)
 	},200);
 }
 
-function readGyroRaw(callback){
-	var gyro_raw;
+function readGyroDeg(callback){
+	var gyro_deg;
 	global.characteristic_notify.once('read', function(data, isNotification) {
-		gyro_raw = data.readUInt8(3);
+		//gyro_raw = data.readUInt8(3);
+
+		gyro_deg =  (data.readUInt8(2) << 8) + data.readUInt8(3);
+		if (gyro_deg > global.GYRO_MAX_RANGE) {
+			gyro_deg = -1*(gyro_deg-global.GYRO_MAX_RANGE);
+		}
+
 		//console.log(gyro_raw);
-		callback(gyro_raw);
+		callback(gyro_deg);
 	});
 	global.characteristic_notify.notify(true, function(error) {
 		//console.log('telemetry notification on');
 	});
 }
 
+/*
 function readGyroDeg(callback)
 {
 	var gyro_current;
 	var gyro_init_fl;
 	var gyro_deg;
 
-	var GYRO_MAX_RANGE = 2000.0;
+
+	GYRO_MAX_RANGE = 2000.0;
 
 	gyro_current = readGyroRaw();
 
@@ -137,7 +145,7 @@ function readGyroDeg(callback)
 	callback(gyro_deg);
 
 }
-
+*/
 function setSensorEmitDelay(delay, callback){
 	global.characteristic_write.write(new Buffer([8,delay,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 }
@@ -206,15 +214,15 @@ function dashRun(ref_pwm, ref_yaw){
 	else {
 		if (ref_yaw > 0) {   // If right turn
 			L_motor = ref_pwm;   // Left motor positive
-			R_motor = ref_pwm + (2 * abs(ref_pwm)) * (ref_yaw/MAX_YAW);    // Right motor goes from 100 to -100 (2 = (100 - (-100)) / max_pwm)
+			R_motor = ref_pwm + (2 * Math.abs(ref_pwm)) * (ref_yaw/MAX_YAW);    // Right motor goes from 100 to -100 (2 = (100 - (-100)) / max_pwm)
 		}
 		else if (ref_yaw < 0) {   // If left turn
-			L_motor = ref_pwm - (2 * abs(ref_pwm)) * (ref_yaw/MAX_YAW);   // Left motor goes from 100 to -100
+			L_motor = ref_pwm - (2 * Math.abs(ref_pwm)) * (ref_yaw/MAX_YAW);   // Left motor goes from 100 to -100
 			R_motor = ref_pwm;    // Right motor positive
 		}
 	}
 	// Translate yaw rate to a turning radius and amplify by 50%
-	ref_yaw = 1.5*ref_yaw*abs(ref_pwm)/100; // Turn slowly if moving slowly
+	ref_yaw = 1.5*ref_yaw*Math.abs(ref_pwm)/100; // Turn slowly if moving slowly
   
     //PI controller with anti-windup
 	readGyroDeg(function(gyro_deg){
@@ -227,13 +235,13 @@ function dashRun(ref_pwm, ref_yaw){
 			global.err_integral = -ANTIWINDUP;
 		}
 		mix = P_GAIN*err+I_GAIN*global.err_integral;
-		mix = mix*abs(ref_pwm)/100;   // Cap mixing based on speed
+		mix = mix*Math.abs(ref_pwm)/100;   // Cap mixing based on speed
 		L_motor = L_motor - mix;
 		R_motor = R_motor + mix;
 
 		// Send commands
-		motorDriveL(L_motor);
-		motorDriveR(R_motor);
+		motorDriveL(R_motor);
+		motorDriveR(L_motor);
 	});
   return ref_yaw;
 }
@@ -272,23 +280,45 @@ function explore(peripheral, arr, callback) {
 
 				//console.log(gyro_init);
 				global.gyro_init = gyro_init;
-				
+				global.GYRO_MAX_RANGE = 2000.0;
 				//console.log(global.gyro_init);
 
 	
-				setSensorEmitDelay(1000/params.Rate_of_Sensor_Data_Arrival, callback);
+				var sensorperiod = 1000/params.Rate_of_Sensor_Data_Arrival;
+				setSensorEmitDelay(sensorperiod, callback);
 
 				// make `process.stdin` begin emitting "keypress" events
 				keypress(process.stdin);
 
 
-				if (params.Save_Sensor_Data){
+				if (params.Save_All_Sensor_Data){
 					console.log('\tSaving sensor data');
-					log.write(new Date().toString() + '\n');
+					var dateobj = new Date();
+					var datestr = dateobj.toString();
+					var start = dateobj.getTime();
+					log.write('Sensor Data: ' + datestr + '\n');
+					log.write('Expected Time (ms),Actual Time (ms),Yaw Rate (deg/sec),Ambient Light,L Proximity,R Proximity,L Motor(%),R Motor (%)\n');
+					var t = 0;
 
 					characteristic_notify.on('read', function(data, isNotification) {
-						//console.log(data.toString('hex'));
-						log.write(data.toString('hex') + '\n');
+						var gyro_deg =  (data.readUInt8(2) << 8) + data.readUInt8(3);
+						if (gyro_deg > 2000){
+							gyro_deg = -1*(gyro_deg-2000);
+						}
+						var amb_light = (data.readUInt8(4) << 8) + data.readUInt8(5);
+						var l_IR = (data.readUInt8(6) << 8) + data.readUInt8(7);
+						var r_IR = (data.readUInt8(8) << 8) + data.readUInt8(9);
+						var motor_right_backward = data.readUInt8(10);
+						var motor_right_forward = data.readUInt8(11);
+						var motor_left_backward = data.readUInt8(12);
+						var motor_left_forward = data.readUInt8(13);
+						var motorL = parseInt((motor_left_forward - motor_left_backward)*100.0/255.0);
+						var motorR = parseInt((motor_right_forward - motor_right_backward)*100.0/255.0);
+						var writestr = t +','+ (new Date().getTime() - start) + ',' + gyro_deg + ',' + amb_light + ',' + l_IR + ',' + r_IR + ',' + motorL + ',' +  motorR + '\n';
+						log.write(writestr);
+						console.log(writestr);
+						t = t + sensorperiod;
+
 					});
 					// true to enable notify
 					//characteristic_notify.notify(true, function(error) {
@@ -331,6 +361,7 @@ function explore(peripheral, arr, callback) {
 /*
 					//Keypress p: Start Automation
 					if (key && key.name == 'p'){
+						gyro_
 
 						var init_time = new Date();
 
@@ -379,14 +410,16 @@ function explore(peripheral, arr, callback) {
 					// else if (key &&  key.name == 'w' && key.shift){
 					// 	console.log('^w');
 					// 	motorDriveL(100,callback);
-					// 	motorDriveR(100,callback);
+					// 	motorDriveR(100,capabilitylback);
 					// }
 
 
 					else if (key &&  key.name == params.Run_Forward_KEY){
 						console.log(params.Run_Forward_KEY);
-						motorDriveL(params.Forward_Speed, callback);
-						motorDriveR(params.Forward_Speed, callback);
+						
+						dashRun(70,90);
+						//motorDriveL(params.Forward_Speed, callback);
+						//motorDriveR(params.Forward_Speed, callback);
 
 						// setTimeout(function(){
 						// 	motorDriveL(0,callback);

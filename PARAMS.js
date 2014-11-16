@@ -9,9 +9,10 @@
 
 //EDIT PARAMETERS HERE
 	//TELEMETRY
-		define(	'Save_Sensor_Data', true );//~~
-		define(	'Rate_of_Sensor_Data_Arrival', 100 ); //(<= 100Hz)~~
-		define( 'Notify_Significant_Changes_in_Live_Sensor_Data', true);
+		define(	'Save_All_Sensor_Data', true );//~~Output to CSV file
+		define( 'Timestamp_Each_Data_Vector', true);
+		define(	'Rate_of_Sensor_Data_Arrival', 10 ); //(<= 100Hz)~~ 
+		//define( 'Timestamp_Significant_Changes_Sensor_Data', true);
 
 	//TELECOMMAND
 		//~~MOTORS - set running behavior~~
@@ -21,7 +22,7 @@
 		define( 'L_Turn_Angular_Velocity', 70 );
 		define( 'Turn_Duration', 300 ); //(ms)
 
-		//SERVOS - set wing behavior
+	//SERVOS - set wing behavior
 		define( 'Initial_L_Wing_Position', WING_UP ); //Wings Up or Down
 		define( 'Initial_R_Wing_Position', WING_UP );
 		define( 'Final_L_Wing_Position', WING_DOWN );
