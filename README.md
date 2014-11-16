@@ -65,6 +65,9 @@ __Trigger Robot Behavior__
 
 Use Keypresses to Trigger
 
+Sensor Data
+-----------
+Sensor data is automatically saved and appended in sensorlog.csv 
 
 Roadmap (TODO)
 -------------
