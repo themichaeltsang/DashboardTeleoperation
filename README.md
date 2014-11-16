@@ -67,7 +67,8 @@ Use Keypresses to Trigger
 
 Saved Data
 -----------
-Telemetric sensor data is automatically saved and appended in sensorlog.csv 
+Telemetric sensor data is automatically saved and appended in sensorlog.csv
+Use spreadsheet program to open filetype csv 
 
 Roadmap (TODO)
 -------------
