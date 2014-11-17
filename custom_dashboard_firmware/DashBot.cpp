@@ -31,6 +31,9 @@ DashBot::DashBot(void)
   pinMode(IR_ENABLE_RIGHT, OUTPUT);
   digitalWrite(IR_ENABLE_LEFT, HIGH);
   digitalWrite(IR_ENABLE_RIGHT, HIGH);
+
+  // Default sensor emission delay
+  delay_between_sensor_emissions = 50;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +102,7 @@ void DashBot::motorDrive (float motor_pwm, char side) {
     if (pwm_scaled > 0.0) {
       
       PWM_byte = byte(pwm_scaled);
+      //analogWrite(MOTOR_RIGHT_FORWARD, byte(20));
       analogWrite(MOTOR_RIGHT_FORWARD, PWM_byte);
       analogWrite(MOTOR_RIGHT_BACKWARD, 0);
       motor_right_backward_value = 0;
@@ -108,6 +112,7 @@ void DashBot::motorDrive (float motor_pwm, char side) {
    else { 
      
       PWM_byte = byte(abs(pwm_scaled));
+      //analogWrite(MOTOR_RIGHT_BACKWARD, byte(20));
       analogWrite(MOTOR_RIGHT_BACKWARD, PWM_byte);
       analogWrite(MOTOR_RIGHT_FORWARD, 0);
       motor_right_backward_value = PWM_byte;
@@ -119,6 +124,7 @@ if (side == 'L') {
     if (pwm_scaled > 0.0) {
     
     PWM_byte = byte(pwm_scaled);
+    //analogWrite(MOTOR_LEFT_FORWARD, byte(20));
     analogWrite(MOTOR_LEFT_FORWARD, PWM_byte);
     analogWrite(MOTOR_LEFT_BACKWARD, 0);
     motor_left_backward_value = 0;
@@ -127,6 +133,7 @@ if (side == 'L') {
  else { 
          
     PWM_byte = byte(abs(pwm_scaled));
+    //analogWrite(MOTOR_LEFT_BACKWARD, byte(20));
     analogWrite(MOTOR_LEFT_BACKWARD, PWM_byte);
     analogWrite(MOTOR_LEFT_FORWARD, 0);
     motor_left_backward_value = PWM_byte;
@@ -284,6 +291,14 @@ void DashBot::allStop(void)
 {
   motorDriveL(0);
   motorDriveR(0);
+
+ // analogWrite(MOTOR_RIGHT_BACKWARD, byte(0)); // right backward 
+ // analogWrite(MOTOR_RIGHT_FORWARD, byte(0)); // right forward
+ // analogWrite(MOTOR_LEFT_BACKWARD, byte(0)); // left backward
+ // analogWrite(MOTOR_LEFT_FORWARD, byte(0)); // left forward
+
+
+
   err_integral = 0;
 }
 
@@ -485,16 +500,31 @@ void DashBot::executeRadioCommand(void)
       setInfoPacketMode();
       break;
     case 7:
-      motorDriveL(receivedRadioPacket[1]);
+      motor_pwm = receivedRadioPacket[1];
+      if (motor_pwm > 100){
+        motor_pwm = motor_pwm - 100;
+        motor_pwm = -1* motor_pwm;
+      }
+
+      if (receivedRadioPacket[2] == 0){
+        motorDriveL(motor_pwm); //motorDriveL doesnt work
+      }
+      else{
+        motorDriveR(motor_pwm); //motorDriveR works
+
+      }
+
      break;
+
     case 8:
-      motorDriveR(receivedRadioPacket[1]);
+        delay_between_sensor_emissions = receivedRadioPacket[1];
       break;
+
     case 9:
-      SoftPWMSetPercent(MISO,receivedRadioPacket[1]);
+     // SoftPWMSetPercent(MISO,receivedRadioPacket[1]);
       break;
     case 10:
-      SoftPWMSetPercent(MOSI,receivedRadioPacket[1]);
+     // SoftPWMSetPercent(MOSI,receivedRadioPacket[1]);
       break;
     default:
       setEyeColor(100,0,100); //purple
@@ -542,8 +572,13 @@ void DashBot::sendInfoPacket(void){
   
   // send
   int currentYaw = readGyroDeg();
-  if (currentYaw < 0)
-    currentYaw = -currentYaw; 
+ // int sign = 1;
+
+
+  if (currentYaw < 0){
+    currentYaw = -currentYaw + 2000;
+  } 
+
   Serial1.write(highByte(currentYaw));
   Serial1.write(lowByte(currentYaw));
   
@@ -736,7 +771,7 @@ void DashBot::dashPacketHandler(void){
   }
   
   //if in automatic info packet transmission mode is enabled, send an info packet
-  if(millis() - infoPacketTime > 50)
+  if(millis() - infoPacketTime > delay_between_sensor_emissions)
   {
     infoPacketTime = millis();
     //if (infoPacketTransmissionMode == 1)
@@ -757,11 +792,11 @@ void DashBot::dashPacketHandler(void){
 // setup Dash for iOS app
 void DashBot::dashRadioSetup(void){
 
-  SoftPWMBegin();
-  SoftPWMSet(MISO, 100);
-  SoftPWMSetFadeTime(MISO, 200, 1000);
-  SoftPWMSet(MOSI, 100);
-  SoftPWMSetFadeTime(MOSI, 200, 1000);
+  //SoftPWMBegin();
+  //SoftPWMSet(MISO, 100);
+  //SoftPWMSetFadeTime(MISO, 200, 1000);
+  //SoftPWMSet(MOSI, 100);
+  //SoftPWMSetFadeTime(MOSI, 200, 1000);
 
   
   startupBlink(); // green LED high

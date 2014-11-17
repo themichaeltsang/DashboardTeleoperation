@@ -1,4 +1,4 @@
-/* 
+  /* 
   DashBot.h - Library for using Dash.
   Created by Nick Kohut, Dwight Springthorpe II, and Kevin Peterson, June 10, 2014.
   Preoperty of Dash Robotics, Inc.
@@ -59,6 +59,7 @@
   #define INFO_PACKET '2'
   #define MESSAGE_PACKET '3'
 
+ /// #define GYRO_MAX_RANGE 2000;
 
   // drive modes
   #define STOP_MODE 0
@@ -153,6 +154,8 @@
       int baseline_IR_left;
       int baseline_IR_right;
 
+      int delay_between_sensor_emissions;
+
     private:
       // Gyro variables
       // <none>
@@ -160,6 +163,8 @@
       // Controller Variables
       float err_integral;
       int auto_flag;
+      int motor_pwm;
+
 
       byte infoPacketTransmissionMode;
       byte mode;
