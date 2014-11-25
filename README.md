@@ -75,8 +75,10 @@ Roadmap (TODO)
  * Mac OS X:
     * ~~Keypress Flash Lights~~
     * ~~Print Live Sensor Data and save to Log file~~
-    * ~~Keypress Motor Control~~ 
+    * ~~Keypress Motor Control~~
+    * ~~Automated Behavior~~ 
     * SoftPWM extension for Servo Control
+	* ~~Control PWM at ports (current MISO, MOSI, and SDA work)~~
         * Fix Conflicts between SoftPWM timer and timer for right(?) motor speed
     * Program Interactivity, Automation
         * ~~Keypress Turn Right, Turn Left, Go Forward, Go Backward~~
@@ -84,7 +86,7 @@ Roadmap (TODO)
         * Differentiate Keydown and Keypress
         * Control Speed of Wing Flap
         * Timed Automation
-        * Gyro-Assisted Steering
+        * ~~Gyro-Assisted Steering~~
         * ~~Parse external file with parameters~~
     * Automated Motor Control for Self-Righting Body-Arching Project
     * Send Live IMU Sensor Data to Computer
