@@ -72,6 +72,14 @@ Set Telecommand Parameters
 
 __Functions__
 
+Control Motor
+
+
+Control Servo
+    servo1_control(position, speed); //position 0-180 deg, speed 0-255 (50 recommended): 
+    servo2_control(position, speed); //position 0-180 deg, speed 0-255 ";
+    servo3_control(position, speed); //position 0-180 deg, speed 0-255 ";
+
     function automode_sketch1() {
 
     servo1_control(180, 50); //t_0
