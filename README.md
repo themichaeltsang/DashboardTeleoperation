@@ -72,15 +72,19 @@ Set Telecommand Parameters
 
 __Functions__
 
-Control Motor
+Control DC Motor
 
-    motorDrive(left speed, right speed, run duration); //run duration: 
+    motorDrive(left speed, right speed, run duration); //speed 0-100, run duration 0-16777215ms 
 
-Control Servo
+Control Servos 1, 2, and 3
 
-    servo1_control(position, speed); //position 0-180 deg, speed 0-255 (50 recommended): 
-    servo2_control(position, speed); //position 0-180 deg, speed 0-255 ";
-    servo3_control(position, speed); //position 0-180 deg, speed 0-255 ";
+    servo1_control(position, speed); //position 0-180 deg, speed 0-255 (50 recommended)
+    servo2_control(position, speed); //position 0-180 deg, speed 0-255  "
+    servo3_control(position, speed); //position 0-180 deg, speed 0-255  "
+
+__Examples__
+
+    Automated Behvaior
 
     function automode_sketch1() {
 
