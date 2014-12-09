@@ -1,5 +1,5 @@
-Dashboard Telemetry & Telecommand
-===================================
+Dashboard Programmable Teleoperation
+====================================
 
 A BLE central interface for the Dashboard Peripheral, for programmable telemetry and telecommand of small, lightweight robots
 
@@ -19,7 +19,7 @@ Install
 * [Install Node.js: click "INSTALL"](http://nodejs.org/)
 * Download root of this Dashboard Telemetry repository.
 * [Learn how to customize DashBoard firmware](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files)
-* Replace the folder "/libraries/DashBot" [from the link above](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files) with the "/libraries" folder inside the "custom_ardunio_files" folder
+* Replace the folder "/libraries/DashBot" [from the link above](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files) with the "/libraries" folder, found inside the "custom_ardunio_files"
     * This is to ensure that the VarSpeedServo and custom Dashbot library are both loaded into the DashBoard firmware.
 
 Bluetooth Setup
@@ -32,6 +32,7 @@ Parameter Definitions
 __In PARAMS.js__
 
 Set Keypress Definitions
+
     define( 'Start_Automation1_KEY', 'p' );
     define( 'Start_Automation2_KEY', 'o' );
     ...
