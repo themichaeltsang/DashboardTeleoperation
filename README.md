@@ -20,7 +20,7 @@ Install
 * Download root of this Dashboard Teleoperation repository
 * [Learn how to customize DashBoard firmware](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files)
 * Replace the folder "/libraries/DashBot" [from the link above](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files) with the "/libraries" folder, found inside "custom_ardunio_files"
-    * This is to ensure that the VarSpeedServo and custom Dashbot library are both loaded into the DashBoard firmware
+    * This is to ensure that the VarSpeedServo and custom DashBot library are both loaded into the DashBoard firmware
 
 Bluetooth Setup
 ---------------
