@@ -42,7 +42,7 @@ Set Keypress Definitions
     ...  
     define( 'Set_Servo1_Init_Position_KEY', 'z' );
     define( 'Set_Servo1_Final_Position_KEY', 'x' );
-
+    ...
 
 Set Telemetry Parameters
 
@@ -97,7 +97,7 @@ __Write an Automated Sketch Program__
             servo2_control(0, 50);
             }, 4000 //t_4
         );
-    
+
     }
 
 
