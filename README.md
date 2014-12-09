@@ -27,12 +27,19 @@ Bluetooth Setup
 * If you have system bluetooth 4.0, skip to next section
 * Else, select your bluetooth 4.0 dongle by selecting host controller in the ["Bluetooth Explorer"](http://www.geekguides.co.uk/414/how-to-select-a-bluetooth-adapter-in-os-x/) application   
 
-Parameter Definitions
----------------------
-__In PARAMS.js__
+Usage
+-----
+__Run__
 
-Set Keypress Definitions
+In root directory:
+   
+    node main.js 
+   
+__Trigger Robot Behavior__
 
+Parameter Definitions:
+
+    //Set Keypress Definitions
     define( 'Start_Automation1_KEY', 'p' );
     define( 'Start_Automation2_KEY', 'o' );
     ...
@@ -44,13 +51,11 @@ Set Keypress Definitions
     define( 'Set_Servo1_Final_Position_KEY', 'x' );
     ...
 
-Set Telemetry Parameters
-
+    //Set Telemetry Parameters
     define( 'Save_Sensor_Data', true );
     define( 'Rate_of_Sensor_Data_Arrival', 100 ); //in Hz
 
-Set Telecommand Parameters
-
+    //Set Telecommand Parameters
     define( 'Forward_Speed', 80 ); //unitless 1-100
     define( 'R_Turn_Angular_Velocity', 70 ); //unitless 1-100
     define( 'L_Turn_Angular_Velocity', 70 );
@@ -61,19 +66,8 @@ Set Telecommand Parameters
     define( 'Servo1_Final_Position', 180 ); //0-180 degrees
     define( 'Servo1_Speed',  40 ); //0=no speed, 1-255 slower to faster
 
-Usage
------
-__Run__
 
-In root directory:
-   
-    node main.js 
-   
-__Trigger Robot Behavior__
-
-Press User-Defined keys to trigger behaviors
-
-__Write an Automated Sketch Program__
+__Functions__
 
     function automode_sketch1() {
 
