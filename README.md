@@ -74,8 +74,10 @@ __Functions__
 
 Control Motor
 
+    motorDrive(left speed, right speed, run duration); //run duration: 
 
 Control Servo
+
     servo1_control(position, speed); //position 0-180 deg, speed 0-255 (50 recommended): 
     servo2_control(position, speed); //position 0-180 deg, speed 0-255 ";
     servo3_control(position, speed); //position 0-180 deg, speed 0-255 ";
