@@ -72,7 +72,7 @@ In root directory:
    
 __Trigger Robot Behavior__
 
-Use Keypresses to Trigger
+Press User-Defined keys to trigger behaviors
 
 Saved Data
 -----------
