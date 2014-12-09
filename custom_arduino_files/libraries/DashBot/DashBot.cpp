@@ -7,7 +7,11 @@
 
 #include "Arduino.h"
 #include "DashBot.h"
-#include <SoftPWM.h>
+#include <VarSpeedServo.h>
+//#include <SoftPWM.h>
+  VarSpeedServo servo1;    // create servo object to control a servo 
+  VarSpeedServo servo2;
+  VarSpeedServo servo3;
 
 DashBot::DashBot(void)
 {  
@@ -31,6 +35,8 @@ DashBot::DashBot(void)
   pinMode(IR_ENABLE_RIGHT, OUTPUT);
   digitalWrite(IR_ENABLE_LEFT, HIGH);
   digitalWrite(IR_ENABLE_RIGHT, HIGH);
+
+
 
   // Default sensor emission delay
   delay_between_sensor_emissions = 50;
@@ -142,6 +148,30 @@ if (side == 'L') {
 
 }
 }   
+
+
+
+
+void DashBot::driveForTime(float motorL_pwm, float motorR_pwm, long time_limit){
+
+  
+  unsigned long init_time = millis();
+  unsigned long current_time = millis();
+  
+  // auto_flag must be 1, if not, an all stop has been called and the auto mode should exit
+  while (current_time - init_time < time_limit) {
+    motorDriveR(motorR_pwm);
+    motorDriveL(motorL_pwm);
+    current_time = millis();
+    while (millis()-current_time < 50) {} // Give yourself time to run!
+    dashPacketHandler(); // listen for other commands
+  }
+  motorDriveR(0);
+  motorDriveL(0);
+}
+
+
+
 
 
 /*
@@ -500,20 +530,19 @@ void DashBot::executeRadioCommand(void)
       setInfoPacketMode();
       break;
     case 7:
-      motor_pwm = receivedRadioPacket[1];
-      if (motor_pwm > 100){
-        motor_pwm = motor_pwm - 100;
-        motor_pwm = -1* motor_pwm;
-      }
+      motorL_pwm = receivedRadioPacket[1];
+      motorR_pwm = receivedRadioPacket[2];
+      duration = (receivedRadioPacket[3] << 16) + (receivedRadioPacket[4] << 8) + receivedRadioPacket[5];
 
-      if (receivedRadioPacket[2] == 0){
-        motorDriveL(motor_pwm); //motorDriveL doesnt work
+      if (motorL_pwm > 100){
+        motorL_pwm = motorL_pwm - 100;
+        motorL_pwm = -1* motorL_pwm;
       }
-      else{
-        motorDriveR(motor_pwm); //motorDriveR works
-
+      if (motorR_pwm > 100){
+        motorR_pwm = motorR_pwm - 100;
+        motorR_pwm = -1* motorR_pwm;
       }
-
+      driveForTime(motorL_pwm, motorR_pwm, duration);     
      break;
 
     case 8:
@@ -521,18 +550,60 @@ void DashBot::executeRadioCommand(void)
       break;
 
     case 9:
-     // SoftPWMSetPercent(MISO,receivedRadioPacket[1]);
+        //servo1.write(0, 30, false); 
+        switch (receivedRadioPacket[3]){
+          case 1:
+            servo1.write(receivedRadioPacket[1], receivedRadioPacket[2], false);
+            break; 
+          case 2:
+            servo2.write(receivedRadioPacket[1], receivedRadioPacket[2], false); 
+            break;
+          case 3:
+            servo3.write(receivedRadioPacket[1], receivedRadioPacket[2], false); 
+            break;
+          default:
+            setEyeColor(100,0,100); //purple
+            clearRadioPacket();
+        }
       break;
-    case 10:
-     // SoftPWMSetPercent(MOSI,receivedRadioPacket[1]);
+    /*case 10:
+        //servo1.write(180, 30, false); 
+        servo2.write(receivedRadioPacket[1], receivedRadioPacket[2], false); 
+      break;*/
+    case 11:
+        servo1port = receivedRadioPacket[1];
+        servo2port = receivedRadioPacket[2];
+        servo3port = receivedRadioPacket[3];
+        servo1.attach(servo1port);  // attaches the servo on pin 9 to the servo object 
+        servo2.attach(servo2port);
+        servo3.attach(servo3port);
+      break;
+
+    case 12:
+      motor_pwm = receivedRadioPacket[1];
+
+      if (motor_pwm > 100){
+        motor_pwm = motor_pwm - 100;
+        motor_pwm = -1*motor_pwm;
+      }
+      motorDriveR(motor_pwm);     
+      break;
+    case 13:
+      motor_pwm = receivedRadioPacket[1];
+
+      if (motor_pwm > 100){
+        motor_pwm = motor_pwm - 100;
+        motor_pwm = -1*motor_pwm;
+      }
+      motorDriveL(motor_pwm);   
+      break;
+    case 14:
+      servo3.write(receivedRadioPacket[1], receivedRadioPacket[2], false); 
       break;
     default:
       setEyeColor(100,0,100); //purple
       clearRadioPacket();
-  
-  }
-
-  
+  } 
 }
 
 // executes one of Dash's autonomous behaviors
@@ -717,7 +788,7 @@ void DashBot::setInfoPacketMode(void){
 // creates serial channels for radio and USB
 void DashBot::setupSystemFunctions(void){
   Serial1.begin(RADIO_BAUD_RATE); //radio channel
-  Serial.begin(USB_BAUD_RATE); //USB channel  
+  //Serial.begin(USB_BAUD_RATE); //USB channel  
   //read name from eeprom and update global name variable:
   readNameFromEEPROM();
   readMessageFromEEPROM();
@@ -792,13 +863,11 @@ void DashBot::dashPacketHandler(void){
 // setup Dash for iOS app
 void DashBot::dashRadioSetup(void){
 
-  //SoftPWMBegin();
-  //SoftPWMSet(MISO, 100);
-  //SoftPWMSetFadeTime(MISO, 200, 1000);
-  //SoftPWMSet(MOSI, 100);
-  //SoftPWMSetFadeTime(MOSI, 200, 1000);
 
   
+  //servo1.attach(MISO);  // attaches the servo on pin 9 to the servo object 
+  //servo2.attach(MOSI);
+
   startupBlink(); // green LED high
   setupSystemFunctions(); //sets up serial radio and USB
   setupIRsensors(); // baseline for IR sensors

@@ -1,3 +1,134 @@
+////////////////////////////////////////////////////////////////////////////////
+// Automode - Remotely program your controller
+// setTimeout is similar to delay
+// setTimeout wraps a block of code that all runs at the same time
+// The x'th setTimeout block runs at time = t_x (in ms)
+//
+// Commands:
+// motorDrive(left motor speed, right motor speed, duration of run)
+//	- motor speed: 0-100, duration of run: 0-16777215ms
+// servox_control(target position, speed to reach position)
+//  - target position: 0-180 degrees, speed: 0-255 (50 recommended)
+////////////////////////////////////////////////////////////////////////////////
+
+
+//Example Sketch - Conventional Sequence
+function automode_sketch1() {
+	
+	servo1_control(180, 50); //t_0
+	setTimeout(function(){
+		motorDrive(100,100,800);
+		servo2_control(0, 50);
+		}, 100 //t_1 (ms)
+	);
+	setTimeout(function(){
+		motorDrive(100,50,800);
+		}, 1000 //t_2
+	);
+	setTimeout(function(){
+		motorDrive(60,100,3000);
+		servo2_control(180, 50);
+		}, 2000 //t_3
+	);
+	setTimeout(function(){
+		servo1_control(0, 50);
+		servo2_control(0, 50);
+		}, 4000 //t_4
+	);
+}
+
+
+
+
+
+//Example Sketch - with "For" Loop
+function automode_sketch2() {
+
+	for(var i = 0; i <= 180; i += 30){
+		(function(i) {
+			setTimeout(function() {
+					servo1_control(i,50);
+					servo2_control(i,50);
+				}, 50*i
+			);
+			setTimeout(function() {
+					servo1_control(180,50);
+					servo2_control(180,50);
+				}, 500 + 50*i
+			);
+		})(i);
+	}
+}
+
+
+
+
+
+
+//Create your own. Feel Free to edit sketch 1 and sketch 2.
+function automode_sketch3() {
+
+		//YOUR CODE HERE
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var keypress = require('keypress');
 var tty = require('tty');
 var noble = require('noble');
@@ -7,13 +138,6 @@ var sys = require("sys");
 var EventEmitter = require('events').EventEmitter;
 var params = require("./PARAMS");
 
-
-
-
-
-// initialize write-to-file capability - create log.txt if it doesn't exist, append to it if it exists
-var log = fs.createWriteStream('sensorlog.csv', {'flags': 'a'});
-// use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +228,7 @@ function gyroSetup(callback)
 		readGyroDeg(function(raw) {
 			val += raw;
 			//console.log(val);
-			callback(val/5);
+			callback();
 		});
 	},200);
 }
@@ -127,25 +251,6 @@ function readGyroDeg(callback){
 	});
 }
 
-/*
-function readGyroDeg(callback)
-{
-	var gyro_current;
-	var gyro_init_fl;
-	var gyro_deg;
-
-
-	GYRO_MAX_RANGE = 2000.0;
-
-	gyro_current = readGyroRaw();
-
-	//OMGARSH
-	gyro_init_fl = global.gyro_init;
-	gyro_deg = (gyro_current - gyro_init_fl)*(GYRO_MAX_RANGE/gyro_init_fl);
-	callback(gyro_deg);
-
-}
-*/
 function setSensorEmitDelay(delay, callback){
 	global.characteristic_write.write(new Buffer([8,delay,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 }
@@ -155,29 +260,41 @@ function setSensorEmitDelay(delay, callback){
 // Telecommand functions
 ////////////////////////////////////////////////////////////////////////////////
 
-//Valid SERVO Positions 5-13
-function servoPositionL(pos, callback){
-	global.characteristic_write.write(new Buffer([9,pos,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+function servo1_control(degree, speed, callback){
+	global.characteristic_write.write(new Buffer([9,degree,speed,1,0,0,0,0,0,0,0,0,0,0]), true, callback);
 }
-function servoPositionR(pos, callback){
-	global.characteristic_write.write(new Buffer([10,pos,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+function servo2_control(degree, speed, callback){
+	global.characteristic_write.write(new Buffer([9,degree,speed,2,0,0,0,0,0,0,0,0,0,0]), true, callback);
+}
+function servo3_control(degree, speed, callback){
+	global.characteristic_write.write(new Buffer([9,degree,speed,3,0,0,0,0,0,0,0,0,0,0]), true, callback);
 }
 
 
-function motorDriveL(motor_pwm, callback){
-
-	if (motor_pwm < 0) {
-		motor_pwm = (-1*motor_pwm) + 100;
+function motorDrive(motorL_pwm, motorR_pwm, duration, callback){
+	if (motorR_pwm < 0) {
+		motorR_pwm = (-1*motorR_pwm) + 100;
 	}
-	global.characteristic_write.write(new Buffer([7,motor_pwm,1,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+	if (motorL_pwm < 0) {
+		motorL_pwm = (-1*motorL_pwm) + 100;
+	}
+	var buf  = new Buffer([7,motorL_pwm,motorR_pwm,duration>>16,duration>>8,duration,0,0,0,0,0,0,0,0]);
+	global.characteristic_write.write(buf, true, callback);
 }
+
 function motorDriveR(motor_pwm, callback){
 	if (motor_pwm < 0) {
 		motor_pwm = (-1*motor_pwm) + 100;
 	}
-	global.characteristic_write.write(new Buffer([7,motor_pwm,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+	global.characteristic_write.write(new Buffer([12,motor_pwm,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 }
 
+function motorDriveL(motor_pwm, callback){
+	if (motor_pwm < 0) {
+		motor_pwm = (-1*motor_pwm) + 100;
+	}
+	global.characteristic_write.write(new Buffer([13,motor_pwm,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+}
 
 
 
@@ -246,6 +363,15 @@ function dashRun(ref_pwm, ref_yaw){
   return ref_yaw;
 }
 
+function setServoPortDefinitions(servo1, servo2, servo3, callback){
+	global.characteristic_write.write(new Buffer([11,servo1,servo2,servo3,0,0,0,0,0,0,0,0,0,0]), true, callback);
+}
+
+
+// initialize write-to-file capability - create log.txt if it doesn't exist, append to it if it exists
+var log = fs.createWriteStream('sensorlog.csv', {'flags': 'a'});
+// use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -286,13 +412,14 @@ function explore(peripheral, arr, callback) {
 	
 				var sensorperiod = 1000/params.Rate_of_Sensor_Data_Arrival;
 				setSensorEmitDelay(sensorperiod, callback);
+				setServoPortDefinitions(params.Servo1_Port, params.Servo2_Port, params.Servo3_Port, callback);
 
 				// make `process.stdin` begin emitting "keypress" events
 				keypress(process.stdin);
 
 
 				if (params.Save_All_Sensor_Data){
-					console.log('\tSaving sensor data');
+					console.log('\tSaving sensor data, appended to sensorlog.csv');
 					var dateobj = new Date();
 					var datestr = dateobj.toString();
 					var start = dateobj.getTime();
@@ -316,16 +443,26 @@ function explore(peripheral, arr, callback) {
 						var motorR = parseInt((motor_right_forward - motor_right_backward)*100.0/255.0);
 						var writestr = t +','+ (new Date().getTime() - start) + ',' + gyro_deg + ',' + amb_light + ',' + l_IR + ',' + r_IR + ',' + motorL + ',' +  motorR + '\n';
 						log.write(writestr);
-						console.log(writestr);
+						//console.log(writestr);
 						t = t + sensorperiod;
 
 					});
-					// true to enable notify
-					//characteristic_notify.notify(true, function(error) {
-					//	console.log('telemetry notification on');
-					//});
 				}
-				console.log('RUNNING');
+				console.log('RUNNING...');
+				console.log('');
+				console.log('Press keys defined in PARAMS.js:');
+				console.log('\tStart Automode1: ' + params.Start_Automation1_KEY);
+				console.log('\tStart Automode2: ' + params.Start_Automation2_KEY);
+				console.log('\tStart Automode3: ' + params.Start_Automation3_KEY);
+				console.log('\tRun Forward: ' + params.Run_Forward_KEY);
+				console.log('\tTurn Right: ' + params.Turn_R_KEY);
+				console.log('\tTurn Left: ' + params.Turn_L_KEY);
+				console.log('\tSet Servo1 initial: ' + params.Set_Servo1_Init_Position_KEY);
+				console.log('\tSet Servo1 final: ' + params.Set_Servo1_Final_Position_KEY);
+				console.log('\tSet Servo2 initial: ' + params.Set_Servo2_Init_Position_KEY);
+				console.log('\tSet Servo2 final: ' + params.Set_Servo2_Final_Position_KEY);
+				console.log('\tSet Servo3 initial: ' + params.Set_Servo3_Init_Position_KEY);
+				console.log('\tSet Servo3 final: ' + params.Set_Servo3_Final_Position_KEY);
 
 
 				// listen for the "keypress" event
@@ -339,8 +476,8 @@ function explore(peripheral, arr, callback) {
 					process.exit();
 
 					}
-
 					//Keypress o: Automate Wing Flapping
+					/*
 					if (key && key.name == 'o'){
 						//Initialize with wings down
 						console.log('o');
@@ -357,134 +494,96 @@ function explore(peripheral, arr, callback) {
 								}, (i-7)*1000+700);
 							})(i);
 						}
-
-/*
+					}
+					*/
 					//Keypress p: Start Automation
-					if (key && key.name == 'p'){
-						gyro_
-
-						var init_time = new Date();
-
-						var auto_flag = 1;
-						var running = 0;
-						//init_time = millis();
-						//while (new Date() - init_time < 1 && auto_flag == 1) {
-							
-
-						//100 ITERATIONS -> TENSECONDS
-						while (running<50)	{//console.log('hi');
-
-							motorDriveL(0, callback);
-							motorDriveR(80, callback);
-							//dashRun Instead		??
-							//dashPacketHandler();
-							running++;
-
-						}
-
-						console.log('done');
-
-
-
-						/*
-						var start = Date.now();
-						console.log('p');
-						//t = 0
-						motorDriveR(rspeed, callback);
-
-						//t = 1000
-						setTimeout(function(){
-							motorDriveR(lspeed, callback);
-							motorDriveL(lspeed, callback);
-						},1000);
-						*/
-					}
-					//Keypress q: Set Eye Color Green
-					if (key &&  key.name == 'q'){
-						console.log('q');
-						characteristic_write.write(new Buffer([1,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+					if (key && key.name == params.Start_Automation1_KEY){
+						console.log(params.Start_Automation1_KEY);
+						automode_sketch1(callback);
 					}
 
+					if (key && key.name == params.Start_Automation2_KEY){
+						console.log(params.Start_Automation2_KEY);
+						automode_sketch2(callback);
+					}
+
+					if (key && key.name == params.Start_Automation3_KEY){
+						console.log(params.Start_Automation3_KEY);
+						automode_sketch3(callback);
+					}
 
 					//Drive straight
-					// else if (key &&  key.name == 'w' && key.shift){
-					// 	console.log('^w');
-					// 	motorDriveL(100,callback);
-					// 	motorDriveR(100,capabilitylback);
-					// }
-
-
 					else if (key &&  key.name == params.Run_Forward_KEY){
 						console.log(params.Run_Forward_KEY);
-						
-						dashRun(70,90);
-						//motorDriveL(params.Forward_Speed, callback);
-						//motorDriveR(params.Forward_Speed, callback);
-
-						// setTimeout(function(){
-						// 	motorDriveL(0,callback);
-						// 	motorDriveR(0,callback);
-						// },200);
+						//dashRun(70,90);
+						motorDriveR(params.Forward_Speed);
+						motorDriveL(params.Forward_Speed);
+						//motorDrive(params.Forward_Speed, params.Forward_Speed, 1, callback);
 					}
 
-					//Go backwards
-
-					// else if (key &&  key.name == 's' && key.shift){
-					// 		console.log('^s');
-					// 		motorDriveL(-100,callback);
-					// 		motorDriveR(-100,callback);
-					// 	}
-
+					//Drive backwards
 					else if (key &&  key.name == params.Run_Backward_KEY){
 						console.log(params.Run_Backward_KEY);
-						motorDriveL(-1*params.Backward_Speed, callback);
-						motorDriveR(-1*params.Backward_Speed, callback);
-
-						// setTimeout(function(){
-						// 	motorDriveL(0,callback);
-						// 	motorDriveR(0,callback);
-						// },200);
+						motorDrive(params.Backward_Speed, params.Backward_Speed, 1, callback);
 					}
 
 					//Turn left
 					else if (key &&  key.name == params.Turn_R_KEY){
-						console.log(params.Turn_R_KEY);
-						motorDriveR(params.R_Turn_Angular_Velocity, callback);
-						motorDriveL(-1*params.R_Turn_Angular_Velocity, callback);
-
+						console.log(params.Turn_R_KEY);	
+						motorDrive(0, params.R_Turn_Angular_Velocity, 100, callback);
 						setTimeout(function(){
-							motorDriveR(0,callback);
-							motorDriveL(0,callback);
+							motorDrive(0, 0, 10, callback);
+
 						},params.Turn_Duration);
 					}
 
 					//Turn right
 					else if (key &&  key.name == params.Turn_L_KEY){
 						console.log(params.Turn_L_KEY);
-						motorDriveR(-1*params.L_Turn_Angular_Velocity,callback);
-						motorDriveL(params.L_Turn_Angular_Velocity,callback);
-
+						motorDrive(params.L_Turn_Angular_Velocity, 0, 100, callback);
 						setTimeout(function(){
-							motorDriveL(0,callback);
-							motorDriveR(0,callback);
+							motorDrive(0, 0, 10, callback);
+
 						},params.Turn_Duration);
 					}
 
-					//Keypress d: Stop Motors
-					// else if (key && key.name == 'f'){//turn motors off
-					// 	console.log('f');
-					// 	motorDriveR(0,callback);
-					// 	motorDriveL(0,callback);
-					// }
-
-
-
-					//Keypress e: Set Eye Color Red
-					else if (key &&  key.name == 'e'){
-						console.log('e');
-						characteristic_write.write(new Buffer([3,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+					else if (key && key.name == params.Set_Servo1_Init_Position_KEY){
+						console.log(params.Set_Servo1_Init_Position_KEY);
+						servo1_control(params.Servo1_Initial_Position, params.Servo1_Speed, callback);
 					}
-					//Keypress ctrl s: Speed up Motor
+					else if (key && key.name == params.Set_Servo1_Final_Position_KEY){
+						console.log(params.Set_Servo1_Final_Position_KEY);
+						servo1_control(params.Servo1_Final_Position, params.Servo1_Speed, callback);
+					}
+					else if (key && key.name == params.Set_Servo2_Init_Position_KEY){
+						console.log(params.Set_Servo2_Init_Position_KEY);
+						servo2_control(params.Servo2_Initial_Position, params.Servo2_Speed, callback);
+					}
+					else if (key && key.name == params.Set_Servo2_Final_Position_KEY){
+						console.log(params.Set_Servo2_Final_Position_KEY);
+						servo2_control(params.Servo2_Final_Position, params.Servo2_Speed, callback);
+					}
+					else if (key && key.name == params.Set_Servo3_Init_Position_KEY){
+						console.log(params.Set_Servo3_Init_Position_KEY);
+						servo3_control(params.Servo3_Initial_Position, params.Servo3_speed, callback);
+					}
+					else if (key && key.name == params.Set_Servo3_Final_Position_KEY){
+						console.log(params.Set_Servo3_Final_Position_KEY);
+						servo3_control(params.Servo3_Final_Position, params.Servo3_speed, callback);
+					}
+
+
+					// Keypress e: Set Eye Color Red
+					// else if (key &&  key.name == 'e'){
+					// 	console.log('e');
+					// 	characteristic_write.write(new Buffer([3,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+					// }
+					// //Keypress q: Set Eye Color Green
+					// if (key &&  key.name == 'q'){
+					// 	console.log('q');
+					// 	characteristic_write.write(new Buffer([1,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+					// }
+					// Keypress ctrl s: Speed up Motor
 					// else if (key &&  key.name == 's' && key.ctrl){
 					// 	if (rspeed<95){
 					// 		console.log('^s');
@@ -492,7 +591,7 @@ function explore(peripheral, arr, callback) {
 					// 	}
 					// 	characteristic_write.write(new Buffer([8,rspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 					// }
-					//Keypress shift s: Slow down Motor
+					// Keypress shift s: Slow down Motor
 					// else if (key &&  key.name == 's' && key.shift){
 					// 	if (rspeed>5){
 					// 		console.log('sft s');
@@ -500,83 +599,15 @@ function explore(peripheral, arr, callback) {
 					// 	}
 					// 	characteristic_write.write(new Buffer([8,rspeed,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
 					// }
-
-
-
-					else if (key && key.name == 'z'){//MISO
-						console.log('z');
-						servoPositionL(5,callback);
-					}
-
-					else if (key && key.name == 'x'){//MISO
-						console.log('x');
-						servoPositionL(7,callback);
-
-					}
-					else if (key && key.name == 'c'){//MISO
-						console.log('c');
-						servoPositionL(9,callback);
-					}
-					else if (key && key.name == 'v'){//MISO
-						console.log('v');
-						servoPositionL(11,callback);
-					}
-					else if (key && key.name == 'b'){//MISO
-						console.log('b');
-						servoPositionL(13,callback);
-					}
-
-
-
-					else if (key && key.name == 'g'){//MOSI
-						console.log('g');
-						servoPositionR(5,callback);
-					}
-
-					else if (key && key.name == 'h'){//MOSI
-						console.log('h');
-						servoPositionR(7,callback);
-					}
-					else if (key && key.name == 'j'){//MOSI
-						console.log('j');
-						servoPositionR(9,callback);
-					}
-					else if (key && key.name == 'k'){//MOSI
-						console.log('k');
-						servoPositionR(11,callback);
-					}
-					else if (key && key.name == 'l'){//MOSI
-						console.log('l');
-						servoPositionR(13,callback);
-					}
-
-					//else if (key && key.name == 'x'){//MOSI
-					//	console.log('x');
-					//	characteristic_write.write(new Buffer([10,20,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-					//}
-					//Keypress m: Set Message
-					//else if (key && key.name == 'm'){
-					//	console.log('m');
-					//	characteristic_write.write(new Buffer([5,'m','e','s','s','a','g','e','1','2','3','4','5',0]), true, callback);
-					//}
-					//Ketpress n: View and Save Sensor Data
-					else if (key && key.name == 'n'){
-						console.log('n');
-						log.write(new Date().toString() + '\n');
-
-						characteristic_notify.on('read', function(data, isNotification) {
-							console.log(data.toString('hex'));
-							log.write(data.toString('hex') + '\n');
-						});
-						// true to enable notify
-						characteristic_notify.notify(true, function(error) {
-							console.log('telemetry notification on');
-						});
-					}
-					//Any other Keypress: Set Eye Color Null
-					else{
-						characteristic_write.write(new Buffer([2,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
-					}
+					// Keypress m: Set Message
+					// else if (key && key.name == 'm'){
+					// 	console.log('m');
+					// 	characteristic_write.write(new Buffer([5,'m','e','s','s','a','g','e','1','2','3','4','5',0]), true, callback);
+					// }
+					// Set Eye Color Blue
+					// else{
+					// 	characteristic_write.write(new Buffer([2,0,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
+					// }
 					
 				});
 			});

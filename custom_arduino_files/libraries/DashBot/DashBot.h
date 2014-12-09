@@ -86,7 +86,7 @@
       // Motor functions
       void motorDriveR(float motor_pwm);
       void motorDriveL(float motor_pwn);
-      
+      void driveForTime(float motorL_pwm, float motorR_pwm, long time_limit);
       void allStop(void);
       void directDrive(byte right_bckwd, byte right_fwd, byte left_bckwd, byte left_fwd);
 
@@ -155,6 +155,10 @@
       int baseline_IR_right;
 
       int delay_between_sensor_emissions;
+      int servo1port;
+      int servo2port;
+      int servo3port;
+
 
     private:
       // Gyro variables
@@ -164,7 +168,9 @@
       float err_integral;
       int auto_flag;
       int motor_pwm;
-
+      float motorR_pwm;
+      float motorL_pwm;
+      long duration; 
 
       byte infoPacketTransmissionMode;
       byte mode;

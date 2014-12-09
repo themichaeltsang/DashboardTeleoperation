@@ -17,9 +17,10 @@ Prerequisites
 Install
 -------
 * [Install Node.js: click "INSTALL"](http://nodejs.org/)
-* Download root of this Dashboard Telemetry repository
+* Download root of this Dashboard Telemetry repository.
 * [Learn how to customize DashBoard firmware](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files)
-* Replace DashBot.cpp and DashBot.h with the files provided in this repository's folder: custom_dashboard_firmware
+* Replace the folder "/libraries/DashBot" [from the link above](https://github.com/DashRobotics/dashboard-v1.0-firmware/tree/master/arduino%20files) with the "/libraries" folder inside the "custom_ardunio_files" folder
+    * This is to ensure that the VarSpeedServo and custom Dashbot library are both loaded into the DashBoard firmware.
 
 Bluetooth Setup
 ---------------
@@ -31,27 +32,34 @@ Parameter Definitions
 __In PARAMS.js__
 
 Set Keypress Definitions
-
+    define( 'Start_Automation1_KEY', 'p' );
+    define( 'Start_Automation2_KEY', 'o' );
+    ...
     define( 'Run_Forward_KEY', 'a' );
-    define( 'Run_Backward_KEY', 's' );
     define( 'Turn_R_KEY, 'd' );
     define( 'Turn_L_KEY, 'a' );
     ...  
+    define( 'Set_Servo1_Init_Position_KEY', 'z' );
+    define( 'Set_Servo1_Final_Position_KEY', 'x' );
+
 
 Set Telemetry Parameters
 
     define( 'Save_Sensor_Data', true );
     define( 'Rate_of_Sensor_Data_Arrival', 100 ); //in Hz
-    ...
 
 Set Telecommand Parameters
 
     define( 'Forward_Speed', 80 ); //unitless 1-100
-    define( 'Backward_Speed', 100 );
     define( 'R_Turn_Angular_Velocity', 70 ); //unitless 1-100
     define( 'L_Turn_Angular_Velocity', 70 );
     define( 'Turn_Duration', 300 ); //(ms)
     ...
+    define( 'Servo1_Port', MOSI );
+    define( 'Servo1_Initial_Position', 0 ); //0-180 degrees
+    define( 'Servo1_Final_Position', 180 ); //0-180 degrees
+    define( 'Servo1_Speed',  40 ); //0=no speed, 1-255 slower to faster
+
 
 Usage
 -----
@@ -77,18 +85,17 @@ Roadmap (TODO)
     * ~~Print Live Sensor Data and save to Log file~~
     * ~~Keypress Motor Control~~
     * ~~Automated Behavior~~ 
-    * SoftPWM extension for Servo Control
-	* ~~Control PWM at ports (current MISO, MOSI, and SDA work)~~
-        * Fix Conflicts between SoftPWM timer and timer for right(?) motor speed
-    * Program Interactivity, Automation
-        * ~~Keypress Turn Right, Turn Left, Go Forward, Go Backward~~
+    * ~~VarSpeedServo extension for Servo Control~~
+	* ~~Control PWM at ports (currently MISO, MOSI, and SDA work)~~
+        * Fix timer conflicts for backwards right or left motor speed
+    * ~~Program Interactivity, Automation~~
+        * ~~Keypress Turn Right, Turn Left, Go Forward~~
         * ~~Delayed Events~~
-        * Differentiate Keydown and Keypress
-        * Control Speed of Wing Flap
-        * Timed Automation
+        * ~~Control Servo Speed~~
+        * ~~Timed Automation~~
         * ~~Gyro-Assisted Steering~~
         * ~~Parse external file with parameters~~
-    * Automated Motor Control for Self-Righting Body-Arching Project
+    * Automated Motor Control for Self-Righting Project
     * Send Live IMU Sensor Data to Computer
     * Autonomous Behavior: Apply Control Theory/Machine Learning/Formal Methods Algorithms  
  * Linux 
