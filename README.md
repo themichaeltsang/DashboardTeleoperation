@@ -35,7 +35,7 @@ In root directory:
    
     node main.js 
    
-__Set Parameters in PARAMS.js__
+__Set Parameters (PARAMS.js)__
 
 Set Keypress Definitions
 
@@ -70,7 +70,7 @@ Set Telecommand Parameters
     define( 'Servo1_Speed',  40 ); //0=no speed, 1-255 slower to faster
     ...
 
-__Functions__
+__Functions (main.js)__
 
 Control DC Motor
 
@@ -82,7 +82,29 @@ Control Servos 1, 2, and 3
     servo2_control(position, speed); //position 0-180 deg, speed 0-255  "
     servo3_control(position, speed); //position 0-180 deg, speed 0-255  "
 
-__Examples__
+Read Yaw Rate
+
+    readGyroDeg(function(yaw_rate){
+        //YOUR CODE HERE that depends on yaw_rate
+    });
+
+Read Ambient Light Intensity
+     readAmbLight(function(amb_light){
+        //YOUR CODE HERE that depends on amb_light
+    });   
+
+Read L and R Proximity
+
+    readLeftProximity(function(l_IR)){
+        //YOUR CODE HERE that depends on l_IR
+    });
+
+    readRightProximity(function(r_IR)){
+        //YOUR CODE HERE that depends on r_IR
+    });
+
+
+__Examples (main.js)__
 
 Automated Behvaior: in automode_sketch1, automode_sketch2, or automode_sketch3
 
@@ -95,21 +117,31 @@ Automated Behvaior: in automode_sketch1, automode_sketch2, or automode_sketch3
             }, 100 //t_1 (ms)
         );
         setTimeout(function(){
-            motorDrive(100,50,800);
+            motorDrive(100,50,300);
             }, 1000 //t_2
-        );
-        setTimeout(function(){
-            motorDrive(60,100,3000);
-            servo2_control(180, 50);
-            }, 2000 //t_3
         );
         setTimeout(function(){
             servo1_control(0, 50);
             servo2_control(0, 50);
-            }, 4000 //t_4
+            }, 4000 //t_3
         );
-
     }
+
+    function automode_sketch2() {
+        //YOUR CODE HERE
+    }
+    
+    function automode_sketch3() {
+        //YOUR CODE HERE
+    }
+
+Cascade Sensor Reads
+
+    readAmbLight(function(amb_light){
+        readGyroDeg(function(yaw_rate){
+            //YOUR CODE HERE that depends on yaw_rate and amb_light
+        });
+    }); 
 
 
 Saved Data

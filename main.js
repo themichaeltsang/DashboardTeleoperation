@@ -236,20 +236,47 @@ function gyroSetup(callback)
 function readGyroDeg(callback){
 	var gyro_deg;
 	global.characteristic_notify.once('read', function(data, isNotification) {
-		//gyro_raw = data.readUInt8(3);
-
 		gyro_deg =  (data.readUInt8(2) << 8) + data.readUInt8(3);
 		if (gyro_deg > global.GYRO_MAX_RANGE) {
 			gyro_deg = -1*(gyro_deg-global.GYRO_MAX_RANGE);
 		}
-
-		//console.log(gyro_raw);
 		callback(gyro_deg);
 	});
 	global.characteristic_notify.notify(true, function(error) {
-		//console.log('telemetry notification on');
 	});
 }
+
+function readAmbLight(callback){
+	var amb_light;
+	global.characteristic_notify.once('read', function(data, isNotification) {
+		amb_light = (data.readUInt8(4) << 8) + data.readUInt8(5);
+		callback(amb_light);
+	});
+	global.characteristic_notify.notify(true, function(error) {
+	});
+}
+
+function readLeftProximity(callback){
+	var l_IR;
+	global.characteristic_notify.once('read', function(data, isNotification) {
+		l_IR = (data.readUInt8(6) << 8) + data.readUInt8(7);
+		callback(l_IR);
+	});
+	global.characteristic_notify.notify(true, function(error) {
+	});
+}
+
+function readRightProximity(callback){
+	var r_IR;
+	global.characteristic_notify.once('read', function(data, isNotification) {
+		r_IR = (data.readUInt8(8) << 8) + data.readUInt8(9);
+		callback(r_IR);
+	});
+	global.characteristic_notify.notify(true, function(error) {
+	});
+}
+
+
 
 function setSensorEmitDelay(delay, callback){
 	global.characteristic_write.write(new Buffer([8,delay,0,0,0,0,0,0,0,0,0,0,0,0]), true, callback);
