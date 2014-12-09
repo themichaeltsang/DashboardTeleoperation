@@ -35,7 +35,7 @@ In root directory:
    
     node main.js 
    
-__Set Parameters__
+__Set Parameters in PARAMS.js__
 
 Set Keypress Definitions
 
