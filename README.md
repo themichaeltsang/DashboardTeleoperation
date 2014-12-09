@@ -35,11 +35,10 @@ In root directory:
    
     node main.js 
    
-__Trigger Robot Behavior__
+__Set Parameters__
 
-Parameter Definitions:
+Set Keypress Definitions
 
-    //Set Keypress Definitions
     define( 'Start_Automation1_KEY', 'p' );
     define( 'Start_Automation2_KEY', 'o' );
     ...
@@ -51,21 +50,25 @@ Parameter Definitions:
     define( 'Set_Servo1_Final_Position_KEY', 'x' );
     ...
 
-    //Set Telemetry Parameters
+Set Telemetry Parameters
+
     define( 'Save_Sensor_Data', true );
     define( 'Rate_of_Sensor_Data_Arrival', 100 ); //in Hz
 
-    //Set Telecommand Parameters
+Set Telecommand Parameters
+
+    //DC Motor Control
     define( 'Forward_Speed', 80 ); //unitless 1-100
     define( 'R_Turn_Angular_Velocity', 70 ); //unitless 1-100
     define( 'L_Turn_Angular_Velocity', 70 );
     define( 'Turn_Duration', 300 ); //(ms)
     ...
+    //Servo Control
     define( 'Servo1_Port', MOSI );
     define( 'Servo1_Initial_Position', 0 ); //0-180 degrees
     define( 'Servo1_Final_Position', 180 ); //0-180 degrees
     define( 'Servo1_Speed',  40 ); //0=no speed, 1-255 slower to faster
-
+    ...
 
 __Functions__
 
