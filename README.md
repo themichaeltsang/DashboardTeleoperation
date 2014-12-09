@@ -84,7 +84,7 @@ Control Servos 1, 2, and 3
 
 __Examples__
 
-    Automated Behvaior
+Automated Behvaior: in automode_sketch1, automode_sketch2, or automode_sketch3
 
     function automode_sketch1() {
 
