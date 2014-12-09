@@ -61,7 +61,6 @@ Set Telecommand Parameters
     define( 'Servo1_Final_Position', 180 ); //0-180 degrees
     define( 'Servo1_Speed',  40 ); //0=no speed, 1-255 slower to faster
 
-
 Usage
 -----
 __Run__
@@ -73,6 +72,34 @@ In root directory:
 __Trigger Robot Behavior__
 
 Press User-Defined keys to trigger behaviors
+
+__Write an Automated Sketch Program__
+
+    function automode_sketch1() {
+
+    servo1_control(180, 50); //t_0
+        setTimeout(function(){
+            motorDrive(100,100,800);
+            servo2_control(0, 50);
+            }, 100 //t_1 (ms)
+        );
+        setTimeout(function(){
+            motorDrive(100,50,800);
+            }, 1000 //t_2
+        );
+        setTimeout(function(){
+            motorDrive(60,100,3000);
+            servo2_control(180, 50);
+            }, 2000 //t_3
+        );
+        setTimeout(function(){
+            servo1_control(0, 50);
+            servo2_control(0, 50);
+            }, 4000 //t_4
+        );
+    
+    }
+
 
 Saved Data
 -----------
