@@ -89,6 +89,7 @@ Read Yaw Rate
     });
 
 Read Ambient Light Intensity
+
      readAmbLight(function(amb_light){
         //YOUR CODE HERE that depends on amb_light
     });   
@@ -110,7 +111,7 @@ Automated Behvaior: in automode_sketch1, automode_sketch2, or automode_sketch3
 
     function automode_sketch1() {
 
-    servo1_control(180, 50); //t_0
+        servo1_control(180, 50); //t_0
         setTimeout(function(){
             motorDrive(100,100,800);
             servo2_control(0, 50);
@@ -137,11 +138,13 @@ Automated Behvaior: in automode_sketch1, automode_sketch2, or automode_sketch3
 
 Cascade Sensor Reads
 
-    readAmbLight(function(amb_light){
-        readGyroDeg(function(yaw_rate){
-            //YOUR CODE HERE that depends on yaw_rate and amb_light
-        });
-    }); 
+    function automode_sketch1() {
+        readAmbLight(function(amb_light){
+            readGyroDeg(function(yaw_rate){
+                //YOUR CODE HERE that depends on yaw_rate and amb_light
+            });
+        }); 
+    }
 
 
 Saved Data
