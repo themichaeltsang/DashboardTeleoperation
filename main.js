@@ -12,64 +12,59 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-//Example Sketch - Conventional Sequence
+//Provided are template sketches. Please use and edit them
+//to your own liking.
+
+//Example Sketch - Sequence
 function automode_sketch1() {
-	
 	servo1_control(180, 50); //t_0
 	setTimeout(function(){
 		motorDrive(100,100,800);
-		servo2_control(0, 50);
 		}, 100 //t_1 (ms)
 	);
 	setTimeout(function(){
-		motorDrive(100,50,800);
+		motorDrive(100, 50, 8000);
 		}, 1000 //t_2
-	);
-	setTimeout(function(){
-		motorDrive(60,100,3000);
-		servo2_control(180, 50);
-		}, 2000 //t_3
 	);
 	setTimeout(function(){
 		servo1_control(0, 50);
 		servo2_control(0, 50);
-		}, 4000 //t_4
+		}, 4000 //t_3
 	);
 }
 
-
-
-
-
-//Example Sketch - with "For" Loop
+//Example Sketch - Squence with "For" Loop
 function automode_sketch2() {
-
 	for(var i = 0; i <= 180; i += 30){
 		(function(i) {
 			setTimeout(function() {
 					servo1_control(i,50);
 					servo2_control(i,50);
+					motorDrive(100,100,1500);
 				}, 50*i
-			);
-			setTimeout(function() {
-					servo1_control(180,50);
-					servo2_control(180,50);
-				}, 500 + 50*i
 			);
 		})(i);
 	}
 }
 
-
-
-
-
-
-//Create your own. Feel Free to edit sketch 1 and sketch 2.
+//Example Sketch - Squence with "For" Loop and sensor-based responses
 function automode_sketch3() {
-
-		//YOUR CODE HERE
-
+	for(var i = 0; i <= 10000; i += 10){
+		(function(i) {
+			setTimeout(function() {
+					readAmbLight(function(raw) {
+						console.log(raw);
+						if (raw<70){
+							motorDrive(100,100,1000);
+						}
+						else{
+							motorDrive(0,0,1000);
+						}
+					});
+				}, 100*i
+			);
+		})(i);
+	}
 }
 
 
@@ -446,6 +441,7 @@ function explore(peripheral, arr, callback) {
 
 
 				if (params.Save_All_Sensor_Data){
+				//if (false){
 					console.log('\tSaving sensor data, appended to sensorlog.csv');
 					var dateobj = new Date();
 					var datestr = dateobj.toString();
@@ -468,11 +464,15 @@ function explore(peripheral, arr, callback) {
 						var motor_left_forward = data.readUInt8(13);
 						var motorL = parseInt((motor_left_forward - motor_left_backward)*100.0/255.0);
 						var motorR = parseInt((motor_right_forward - motor_right_backward)*100.0/255.0);
-						var writestr = t +','+ (new Date().getTime() - start) + ',' + gyro_deg + ',' + amb_light + ',' + l_IR + ',' + r_IR + ',' + motorL + ',' +  motorR + '\n';
+						var writestr = t +'\t'+ (new Date().getTime() - start) + '\t' + gyro_deg + '\t' + amb_light + '\t' + l_IR + '\t' + r_IR + '\t' + motorL + '\t' +  motorR + '\n';
 						log.write(writestr);
-						//console.log(writestr);
+						if (params.Print_Live_Sensor_Data_to_Terminal){
+							console.log(writestr);
+						}
 						t = t + sensorperiod;
 
+					});
+					global.characteristic_notify.notify(true, function(error) {
 					});
 				}
 				console.log('RUNNING...');
@@ -557,21 +557,14 @@ function explore(peripheral, arr, callback) {
 					//Turn left
 					else if (key &&  key.name == params.Turn_R_KEY){
 						console.log(params.Turn_R_KEY);	
-						motorDrive(0, params.R_Turn_Angular_Velocity, 100, callback);
-						setTimeout(function(){
-							motorDrive(0, 0, 10, callback);
-
-						},params.Turn_Duration);
+						motorDrive(0, params.R_Turn_Angular_Velocity, params.Turn_Duration, callback);
 					}
 
 					//Turn right
 					else if (key &&  key.name == params.Turn_L_KEY){
 						console.log(params.Turn_L_KEY);
-						motorDrive(params.L_Turn_Angular_Velocity, 0, 100, callback);
-						setTimeout(function(){
-							motorDrive(0, 0, 10, callback);
+						motorDrive(params.L_Turn_Angular_Velocity, 0, params.Turn_Duration, callback);
 
-						},params.Turn_Duration);
 					}
 
 					else if (key && key.name == params.Set_Servo1_Init_Position_KEY){
